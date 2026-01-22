@@ -1,0 +1,13 @@
+{
+  "workflow": {
+    "mode": "yolo",
+    "depth": "standard",
+    "parallel_execution": true,
+    "commit_docs": true
+  },
+  "planning": {
+    "phases_range": [5, 8],
+    "plans_per_phase_range": [3, 5]
+  },
+  "created": "2025-01-22"
+}
