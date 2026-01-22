@@ -129,13 +129,54 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (To be filled by roadmapper) | | |
+| AUTH-01 | Phase 1 - Foundation | Pending |
+| AUTH-02 | Phase 1 - Foundation | Pending |
+| AUTH-03 | Phase 1 - Foundation | Pending |
+| AUTH-04 | Phase 1 - Foundation | Pending |
+| ICP-01 | Phase 2 - ICP & Onboarding | Pending |
+| ICP-02 | Phase 2 - ICP & Onboarding | Pending |
+| ICP-03 | Phase 2 - ICP & Onboarding | Pending |
+| ICP-04 | Phase 2 - ICP & Onboarding | Pending |
+| ICP-05 | Phase 2 - ICP & Onboarding | Pending |
+| ICP-06 | Phase 2 - ICP & Onboarding | Pending |
+| ICP-07 | Phase 2 - ICP & Onboarding | Pending |
+| DATA-01 | Phase 3 - Data Extraction | Pending |
+| DATA-02 | Phase 3 - Data Extraction | Pending |
+| DATA-03 | Phase 3 - Data Extraction | Pending |
+| DATA-04 | Phase 3 - Data Extraction | Pending |
+| DATA-05 | Phase 3 - Data Extraction | Pending |
+| ANLZ-01 | Phase 4 - AI Analysis | Pending |
+| ANLZ-02 | Phase 4 - AI Analysis | Pending |
+| ANLZ-03 | Phase 4 - AI Analysis | Pending |
+| ANLZ-04 | Phase 4 - AI Analysis | Pending |
+| ANLZ-05 | Phase 4 - AI Analysis | Pending |
+| ANLZ-06 | Phase 4 - AI Analysis | Pending |
+| ANLZ-07 | Phase 4 - AI Analysis | Pending |
+| DASH-01 | Phase 5 - Dashboard | Pending |
+| DASH-02 | Phase 5 - Dashboard | Pending |
+| DASH-03 | Phase 5 - Dashboard | Pending |
+| DASH-04 | Phase 5 - Dashboard | Pending |
+| DASH-05 | Phase 5 - Dashboard | Pending |
+| DASH-06 | Phase 5 - Dashboard | Pending |
+| DASH-07 | Phase 5 - Dashboard | Pending |
+| DASH-08 | Phase 5 - Dashboard | Pending |
+| DASH-09 | Phase 5 - Dashboard | Pending |
+| DASH-10 | Phase 5 - Dashboard | Pending |
+| BILL-01 | Phase 6 - Billing & Polish | Pending |
+| BILL-02 | Phase 6 - Billing & Polish | Pending |
+| BILL-03 | Phase 6 - Billing & Polish | Pending |
+| BILL-04 | Phase 6 - Billing & Polish | Pending |
+| BILL-05 | Phase 6 - Billing & Polish | Pending |
+| BILL-06 | Phase 6 - Billing & Polish | Pending |
+| BILL-07 | Phase 6 - Billing & Polish | Pending |
+| BILL-08 | Phase 6 - Billing & Polish | Pending |
+| BILL-09 | Phase 6 - Billing & Polish | Pending |
 
 **Coverage:**
 - v1 requirements: 32 total
-- Mapped to phases: 0
-- Unmapped: 32 (pending roadmap)
+- Mapped to phases: 32
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-22*
-*Last updated: 2026-01-22 after initial definition*
+*Last updated: 2026-01-23 after roadmap creation*
