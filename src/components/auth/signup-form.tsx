@@ -11,11 +11,13 @@ import { useState } from 'react'
 
 export function SignupForm() {
   const [error, setError] = useState<string | null>(null)
+  const [emailSent, setEmailSent] = useState(false)
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    getValues,
   } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
   })
@@ -23,6 +25,13 @@ export function SignupForm() {
   async function onSubmit(data: SignUpInput) {
     setError(null)
     const result = await signUp(data)
+
+    if (result?.needsEmailConfirmation) {
+      // Account created, but email confirmation required
+      setEmailSent(true)
+      return
+    }
+
     if (result?.error) {
       // Handle Supabase rate limit errors with friendlier message
       if (result.error.toLowerCase().includes('rate limit') ||
@@ -35,6 +44,32 @@ export function SignupForm() {
         setError(result.error)
       }
     }
+    // If no error and no needsEmailConfirmation, the action will redirect
+  }
+
+  // Show confirmation message after signup when email confirmation is required
+  if (emailSent) {
+    return (
+      <div className="space-y-4 text-center">
+        <div className="p-4 bg-primary/10 rounded-md">
+          <p className="font-medium">Check your email</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            We sent a confirmation link to <strong>{getValues('email')}</strong>
+          </p>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Click the link in your email to activate your account.
+          If you don&apos;t see it, check your spam folder.
+        </p>
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => setEmailSent(false)}
+        >
+          Use a different email
+        </Button>
+      </div>
+    )
   }
 
   return (

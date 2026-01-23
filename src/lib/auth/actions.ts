@@ -26,7 +26,13 @@ async function getOrigin(): Promise<string> {
   return `${protocol}://${host}`
 }
 
-export async function signUp(input: SignUpInput): Promise<AuthResult> {
+export type SignUpResult = {
+  error?: string
+  success?: boolean
+  needsEmailConfirmation?: boolean
+}
+
+export async function signUp(input: SignUpInput): Promise<SignUpResult> {
   const parsed = signUpSchema.safeParse(input)
   if (!parsed.success) {
     return { error: parsed.error.errors[0].message }
@@ -35,7 +41,7 @@ export async function signUp(input: SignUpInput): Promise<AuthResult> {
   const supabase = await createClient()
   const origin = await getOrigin()
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
@@ -50,7 +56,18 @@ export async function signUp(input: SignUpInput): Promise<AuthResult> {
     return { error: error.message }
   }
 
-  // Redirect to onboarding after successful signup
+  // If session exists, email confirmation is disabled - redirect immediately
+  if (data.session) {
+    redirect('/onboarding')
+  }
+
+  // No session means email confirmation is required
+  // User was created but needs to verify email
+  if (data.user && !data.session) {
+    return { success: true, needsEmailConfirmation: true }
+  }
+
+  // Fallback - shouldn't reach here normally
   redirect('/onboarding')
 }
 

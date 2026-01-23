@@ -53,13 +53,22 @@ AI-powered sales lead qualification with ICP-personalized scoring.
 
 ### Disable Email Confirmation (Recommended for Development)
 
-Supabase free tier has strict email rate limits (3-4 emails/hour). To avoid "email rate limit exceeded" errors during development:
+Supabase free tier has strict email rate limits (3-4 emails/hour). **This cannot be bypassed in code** — it's enforced at Supabase's API level.
 
-1. Go to Supabase Dashboard > Authentication > Providers > Email
-2. Toggle OFF "Confirm email"
-3. Click "Save"
+To enable instant signup without email verification:
 
-This allows instant account creation without email verification. Re-enable for production.
+1. Go to **Supabase Dashboard** → **Authentication** → **Providers** → **Email**
+2. Toggle **OFF** "Confirm email"
+3. Click **Save**
+
+**What happens with each setting:**
+
+| Setting | Behavior |
+|---------|----------|
+| Confirm email ON | User created, email sent, must click link to activate. Rate limited. |
+| Confirm email OFF | User created and logged in immediately. No email sent. No rate limit. |
+
+The app handles both modes gracefully — with confirmation disabled, users redirect immediately; with it enabled, they see a "check your email" message.
 
 ### Google OAuth Setup (Optional)
 
