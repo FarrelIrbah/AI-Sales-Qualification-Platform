@@ -24,7 +24,16 @@ export function SignupForm() {
     setError(null)
     const result = await signUp(data)
     if (result?.error) {
-      setError(result.error)
+      // Handle Supabase rate limit errors with friendlier message
+      if (result.error.toLowerCase().includes('rate limit') ||
+          result.error.toLowerCase().includes('email rate limit')) {
+        setError(
+          'Email rate limit exceeded. Please wait a few minutes and try again, ' +
+          'or use Google sign-in to continue immediately.'
+        )
+      } else {
+        setError(result.error)
+      }
     }
   }
 

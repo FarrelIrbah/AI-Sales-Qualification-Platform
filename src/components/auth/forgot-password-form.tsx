@@ -25,7 +25,15 @@ export function ForgotPasswordForm() {
     setError(null)
     const result = await resetPassword(data)
     if (result?.error) {
-      setError(result.error)
+      // Handle Supabase rate limit errors with friendlier message
+      if (result.error.toLowerCase().includes('rate limit') ||
+          result.error.toLowerCase().includes('email rate limit')) {
+        setError(
+          'Email rate limit exceeded. Please wait a few minutes and try again.'
+        )
+      } else {
+        setError(result.error)
+      }
     } else if (result?.success) {
       setSuccess(true)
     }
