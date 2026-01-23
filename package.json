@@ -1,15 +1,36 @@
 {
-  "name": "ai-sales-qualification-platform",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "leadqual",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.91.0",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.9",
+    "@types/react-dom": "^19.2.3",
+    "drizzle-orm": "^0.45.1",
+    "next": "^16.1.4",
+    "postcss": "^8.5.6",
+    "postgres": "^3.4.8",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-hook-form": "^7.71.1",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.8"
+  }
 }
