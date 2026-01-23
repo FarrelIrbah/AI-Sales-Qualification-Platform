@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can create account with email and password
-- [ ] **AUTH-02**: User session persists across browser refresh
-- [ ] **AUTH-03**: User can reset password via email link
-- [ ] **AUTH-04**: User can sign in with Google OAuth
+- [x] **AUTH-01**: User can create account with email and password
+- [x] **AUTH-02**: User session persists across browser refresh
+- [x] **AUTH-03**: User can reset password via email link
+- [x] **AUTH-04**: User can sign in with Google OAuth
 
 ### ICP System
 
@@ -129,10 +129,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 - Foundation | Pending |
-| AUTH-02 | Phase 1 - Foundation | Pending |
-| AUTH-03 | Phase 1 - Foundation | Pending |
-| AUTH-04 | Phase 1 - Foundation | Pending |
+| AUTH-01 | Phase 1 - Foundation | Complete |
+| AUTH-02 | Phase 1 - Foundation | Complete |
+| AUTH-03 | Phase 1 - Foundation | Complete |
+| AUTH-04 | Phase 1 - Foundation | Complete |
 | ICP-01 | Phase 2 - ICP & Onboarding | Pending |
 | ICP-02 | Phase 2 - ICP & Onboarding | Pending |
 | ICP-03 | Phase 2 - ICP & Onboarding | Pending |
