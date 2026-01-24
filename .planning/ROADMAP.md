@@ -62,6 +62,14 @@ Plans:
 4. User can access ICP settings and modify any field after initial setup
 5. Existing ICP data persists and loads correctly when user returns
 
+**Plans:** 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md - Database schema + Zod validations + AI SDK setup
+- [ ] 02-02-PLAN.md - ICP Wizard UI (steps 1-2: Company Info + Target Criteria)
+- [ ] 02-03-PLAN.md - ICP Wizard UI (steps 3-4: Value Props + Objections) + API
+- [ ] 02-04-PLAN.md - Onboarding integration + Settings page + verification
+
 ---
 
 ## Phase 3: Data Extraction
@@ -167,8 +175,8 @@ Plans:
 
 | Phase | Status | Requirements | Completion |
 |-------|--------|--------------|------------|
-| 1. Foundation | ✓ Complete | AUTH-01, AUTH-02, AUTH-03, AUTH-04 | 100% |
-| 2. ICP & Onboarding | Pending | ICP-01 through ICP-07 | 0% |
+| 1. Foundation | Complete | AUTH-01, AUTH-02, AUTH-03, AUTH-04 | 100% |
+| 2. ICP & Onboarding | In Progress | ICP-01 through ICP-07 | 0% |
 | 3. Data Extraction | Pending | DATA-01 through DATA-05 | 0% |
 | 4. AI Analysis | Pending | ANLZ-01 through ANLZ-07 | 0% |
 | 5. Dashboard | Pending | DASH-01 through DASH-10 | 0% |
@@ -182,10 +190,10 @@ Plans:
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | ✓ Complete |
-| AUTH-02 | Phase 1 | ✓ Complete |
-| AUTH-03 | Phase 1 | ✓ Complete |
-| AUTH-04 | Phase 1 | ✓ Complete |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
+| AUTH-04 | Phase 1 | Complete |
 | ICP-01 | Phase 2 | Pending |
 | ICP-02 | Phase 2 | Pending |
 | ICP-03 | Phase 2 | Pending |
@@ -230,4 +238,4 @@ Plans:
 ---
 
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-24*
+*Last updated: 2026-01-25*
