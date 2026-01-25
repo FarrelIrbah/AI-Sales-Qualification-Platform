@@ -97,9 +97,16 @@ export const fullIcpSchema = companyInfoSchema
   .merge(valuePropsSchema)
   .merge(objectionsSchema)
 
-// Type exports
-export type CompanyInfoInput = z.infer<typeof companyInfoSchema>
-export type TargetCriteriaInput = z.infer<typeof targetCriteriaSchema>
-export type ValuePropsInput = z.infer<typeof valuePropsSchema>
-export type ObjectionsInput = z.infer<typeof objectionsSchema>
-export type FullIcpInput = z.infer<typeof fullIcpSchema>
+// Type exports - Output types (after validation/transform)
+export type CompanyInfoOutput = z.output<typeof companyInfoSchema>
+export type TargetCriteriaOutput = z.output<typeof targetCriteriaSchema>
+export type ValuePropsOutput = z.output<typeof valuePropsSchema>
+export type ObjectionsOutput = z.output<typeof objectionsSchema>
+export type FullIcpOutput = z.output<typeof fullIcpSchema>
+
+// Input types - for form defaults (before defaults are applied)
+export type CompanyInfoInput = z.input<typeof companyInfoSchema>
+export type TargetCriteriaInput = z.input<typeof targetCriteriaSchema>
+export type ValuePropsInput = z.input<typeof valuePropsSchema>
+export type ObjectionsInput = z.input<typeof objectionsSchema>
+export type FullIcpInput = z.input<typeof fullIcpSchema>

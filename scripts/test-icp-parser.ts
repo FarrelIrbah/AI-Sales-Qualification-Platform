@@ -56,8 +56,8 @@ async function main() {
       console.log('   PASS: Parsed target criteria:')
       console.log(`   - Sizes: ${targetResult.idealCompanySizes.join(', ')}`)
       console.log(`   - Industries: ${targetResult.targetIndustries.join(', ')}`)
-      console.log(`   - Locations: ${targetResult.targetLocations.join(', ')}`)
-      console.log(`   - Tech: ${targetResult.techRequirements.join(', ')}`)
+      console.log(`   - Locations: ${(targetResult.targetLocations ?? []).join(', ') || '(none)'}`)
+      console.log(`   - Tech: ${(targetResult.techRequirements ?? []).join(', ') || '(none)'}`)
       if (targetResult.budgetRange) {
         console.log(`   - Budget: $${targetResult.budgetRange.min ?? '?'} - $${targetResult.budgetRange.max ?? '?'}`)
       }
@@ -102,7 +102,8 @@ async function main() {
     const objectionsResult = await parseObjections(objectionsInput)
     if (objectionsResult) {
       console.log('   PASS: Parsed objections:')
-      objectionsResult.commonObjections.forEach((obj, i) => {
+      const objections = objectionsResult.commonObjections ?? []
+      objections.forEach((obj, i) => {
         console.log(`   [${i + 1}] ${obj.objection}`)
         if (obj.suggestedResponse) {
           console.log(`       Response: ${obj.suggestedResponse}`)
