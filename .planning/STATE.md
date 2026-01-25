@@ -1,7 +1,7 @@
 # Project State: LeadQual
 
-**Last Updated:** 2026-01-24
-**Session:** Phase 1 Complete
+**Last Updated:** 2026-01-25
+**Session:** Phase 2 In Progress
 
 ---
 
@@ -9,38 +9,38 @@
 
 **Core Value:** Two different users analyzing the same company get completely different, actionable recommendations based on their unique ICP.
 
-**Current Focus:** Phase 1 complete. Ready for Phase 2 (ICP & Onboarding).
+**Current Focus:** Phase 2 plan 01 complete. Continue with ICP wizard UI.
 
 ---
 
 ## Current Position
 
-**Phase:** 1 of 6 (Foundation) - COMPLETE
-**Plan:** 5 of 5 complete
-**Status:** Phase verified, ready for next phase
-**Last activity:** 2026-01-24 - Phase 1 verification passed
+**Phase:** 2 of 6 (ICP & Onboarding)
+**Plan:** 1 of 4 complete
+**Status:** In progress
+**Last activity:** 2026-01-25 - Completed 02-01-PLAN.md (ICP Schema & AI Infrastructure)
 
 ```
-Progress: [##........] 12.5% (4/32 requirements)
-Phase 1:  [##########] 100% ✓
+Progress: [###.......] 18.8% (6/32 requirements estimated)
+Phase 1:  [##########] 100% COMPLETE
+Phase 2:  [##........] 25% (1/4 plans)
 ```
 
 ---
 
-## Phase 1 Plan Structure
+## Phase 2 Plan Structure
 
 | Plan | Wave | Description | Depends On | Status |
 |------|------|-------------|------------|--------|
-| 01-01 | 1 | Project scaffolding (Next.js + Supabase + shadcn) | - | ✓ COMPLETE |
-| 01-02 | 1 | Database schema (profiles, RLS, triggers) | - | ✓ COMPLETE |
-| 01-03 | 2 | Auth server actions and route handlers | 01-01, 01-02 | ✓ COMPLETE |
-| 01-04 | 2 | Auth UI pages (login, signup, password reset) | 01-01 | ✓ COMPLETE |
-| 01-05 | 3 | Protected routes and integration testing | 01-03, 01-04 | ✓ COMPLETE |
+| 02-01 | 1 | ICP Schema & AI Infrastructure | - | COMPLETE |
+| 02-02 | 2 | ICP Wizard UI | 02-01 | Ready |
+| 02-03 | 2 | ICP Server Actions | 02-01 | Ready |
+| 02-04 | 3 | Onboarding Integration | 02-02, 02-03 | Pending |
 
 **Wave Parallelism:**
-- Wave 1: Plans 01 + 02 - COMPLETE
-- Wave 2: Plans 03 + 04 - COMPLETE
-- Wave 3: Plan 05 - COMPLETE (human-verified)
+- Wave 1: Plan 01 - COMPLETE
+- Wave 2: Plans 02 + 03 - READY (can run in parallel)
+- Wave 3: Plan 04 - Pending (depends on Wave 2)
 
 ---
 
@@ -48,8 +48,8 @@ Phase 1:  [##########] 100% ✓
 
 | Phase | Name | Status | Requirements |
 |-------|------|--------|--------------|
-| 1 | Foundation | ✓ Complete | AUTH-01 to AUTH-04 |
-| 2 | ICP & Onboarding | Ready | ICP-01 to ICP-07 |
+| 1 | Foundation | COMPLETE | AUTH-01 to AUTH-04 |
+| 2 | ICP & Onboarding | In Progress | ICP-01 to ICP-07 |
 | 3 | Data Extraction | Pending | DATA-01 to DATA-05 |
 | 4 | AI Analysis | Pending | ANLZ-01 to ANLZ-07 |
 | 5 | Dashboard | Pending | DASH-01 to DASH-10 |
@@ -61,10 +61,10 @@ Phase 1:  [##########] 100% ✓
 
 | Metric | Value |
 |--------|-------|
-| Plans Completed | 5 |
-| Requirements Completed | 4/32 |
+| Plans Completed | 6 |
+| Requirements Completed | ~6/32 |
 | Phases Completed | 1/6 |
-| Current Streak | 5 |
+| Current Streak | 6 |
 
 ---
 
@@ -87,6 +87,9 @@ Phase 1:  [##########] 100% ✓
 | AuthCard wrapper component | Consistent card styling across all auth pages with title/description/footer | 2026-01-23 |
 | Client + server validation | Forms use react-hook-form + zod client-side, actions double-validate server-side | 2026-01-23 |
 | Email confirmation handling | App works with both Supabase email confirmation ON and OFF | 2026-01-24 |
+| JSONB for ICP nested data | Flexible schema evolution for targetCriteria, valuePropositions, commonObjections | 2026-01-25 |
+| Flat company info columns | Common query patterns benefit from indexed flat columns | 2026-01-25 |
+| Zod .describe() for AI parsing | Descriptions guide AI SDK structured output extraction | 2026-01-25 |
 
 ### Tech Stack (from Research)
 
@@ -96,7 +99,7 @@ Phase 1:  [##########] 100% ✓
 | Database | Supabase PostgreSQL |
 | ORM | Drizzle |
 | AI | OpenAI GPT-4o |
-| AI SDK | Vercel AI SDK 4.x |
+| AI SDK | Vercel AI SDK 6.x |
 | Scraping | Playwright + Cheerio |
 | UI | Tailwind CSS 4.x + shadcn/ui |
 | Payments | Stripe |
@@ -122,7 +125,7 @@ Phase 1:  [##########] 100% ✓
 
 ### Blockers
 
-None currently. Phase 1 complete.
+None currently. Ready for 02-02.
 
 ### Open Questions
 
@@ -132,7 +135,8 @@ None currently.
 
 - [x] Create Phase 1 plan with `/gsd:plan-phase 1`
 - [x] Execute Phase 1 with `/gsd:execute-phase 1`
-- [ ] Plan Phase 2 with `/gsd:plan-phase 2`
+- [x] Plan Phase 2 with `/gsd:plan-phase 2`
+- [ ] Execute remaining Phase 2 plans
 
 ---
 
@@ -145,17 +149,11 @@ None currently.
 | .planning/ROADMAP.md | Phase structure with success criteria |
 | .planning/STATE.md | This file - current state and context |
 | .planning/phases/01-foundation/01-RESEARCH.md | Phase 1 research findings |
-| .planning/phases/01-foundation/01-01-PLAN.md | Plan 01: Project scaffolding |
-| .planning/phases/01-foundation/01-01-SUMMARY.md | Plan 01: Summary |
-| .planning/phases/01-foundation/01-02-PLAN.md | Plan 02: Database schema |
-| .planning/phases/01-foundation/01-02-SUMMARY.md | Plan 02: Summary |
-| .planning/phases/01-foundation/01-03-PLAN.md | Plan 03: Auth server actions |
-| .planning/phases/01-foundation/01-03-SUMMARY.md | Plan 03: Summary |
-| .planning/phases/01-foundation/01-04-PLAN.md | Plan 04: Auth UI pages |
-| .planning/phases/01-foundation/01-04-SUMMARY.md | Plan 04: Summary |
-| .planning/phases/01-foundation/01-05-PLAN.md | Plan 05: Protected routes |
-| .planning/phases/01-foundation/01-05-SUMMARY.md | Plan 05: Summary |
+| .planning/phases/01-foundation/01-0X-*.md | Phase 1 plans and summaries |
 | .planning/phases/01-foundation/01-VERIFICATION.md | Phase 1 verification report |
+| .planning/phases/02-icp-onboarding/02-RESEARCH.md | Phase 2 research findings |
+| .planning/phases/02-icp-onboarding/02-01-PLAN.md | Plan 01: ICP Schema & AI |
+| .planning/phases/02-icp-onboarding/02-01-SUMMARY.md | Plan 01: Summary |
 | .planning/config.json | Workflow configuration |
 
 ---
@@ -163,3 +161,4 @@ None currently.
 *State initialized: 2026-01-23*
 *Planning completed: 2026-01-23*
 *Phase 1 complete: 2026-01-24*
+*Phase 2 started: 2026-01-25*
