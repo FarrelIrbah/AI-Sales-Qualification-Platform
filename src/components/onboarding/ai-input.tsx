@@ -37,7 +37,7 @@ export function AiInput<T extends FieldValues>({
       const result = await parseAction(naturalInput)
 
       if (!result) {
-        const errorMessage = "Failed to extract information. Please try again or fill in manually."
+        const errorMessage = "AI service unavailable. Please fill in the fields manually below."
         setError(errorMessage)
         onError?.(errorMessage)
         return
@@ -58,7 +58,8 @@ export function AiInput<T extends FieldValues>({
       setNaturalInput("")
       onParseComplete?.()
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred"
+      console.error('AI parsing error:', err)
+      const errorMessage = "AI service unavailable. Please fill in the fields manually below."
       setError(errorMessage)
       onError?.(errorMessage)
     } finally {

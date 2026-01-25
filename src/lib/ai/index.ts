@@ -1,10 +1,10 @@
-import { createOpenAI } from '@ai-sdk/openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-// Create OpenAI provider with custom configuration
-export const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize the Google Generative AI client
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY || '')
 
-// Export configured models
-export const gpt4o = openai('gpt-4o')
-export const gpt4oMini = openai('gpt-4o-mini') // Cheaper for simple extractions
+// Export configured model - gemini-2.0-flash is fast and free tier available
+export const geminiFlash = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+
+// Export the client for direct access if needed
+export { genAI }

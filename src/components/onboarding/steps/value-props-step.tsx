@@ -18,6 +18,7 @@ import type { FullIcpInput } from '@/lib/validations/icp'
 interface ValuePropsStepProps {
   onAiParse?: (input: string) => Promise<void>
   isAiParsing?: boolean
+  aiError?: string | null
 }
 
 export function ValuePropsStep({ onAiParse, isAiParsing }: ValuePropsStepProps) {

@@ -44,6 +44,7 @@ export function IcpWizard({ mode = "onboarding", initialData, onSuccess }: IcpWi
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isAiParsing, setIsAiParsing] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const [aiError, setAiError] = React.useState<string | null>(null)
 
   const form = useForm<FullIcpInput>({
     resolver: zodResolver(fullIcpSchema),
@@ -79,12 +80,14 @@ export function IcpWizard({ mode = "onboarding", initialData, onSuccess }: IcpWi
   const handleNext = async () => {
     const isValid = await validateCurrentStep()
     if (isValid && currentStep < TOTAL_STEPS) {
+      setAiError(null) // Clear AI error when navigating
       setCurrentStep((prev) => prev + 1)
     }
   }
 
   const handleBack = () => {
     if (currentStep > 1) {
+      setAiError(null) // Clear AI error when navigating
       setCurrentStep((prev) => prev - 1)
     }
   }
@@ -129,11 +132,17 @@ export function IcpWizard({ mode = "onboarding", initialData, onSuccess }: IcpWi
   // AI parsing handlers for Steps 3 and 4
   const handleValuePropsAiParse = async (input: string) => {
     setIsAiParsing(true)
+    setAiError(null)
     try {
       const result = await parseValuePropsAction(input)
       if (result?.valuePropositions) {
         form.setValue("valuePropositions", result.valuePropositions)
+      } else {
+        setAiError("AI service unavailable. Please add value propositions manually below.")
       }
+    } catch (err) {
+      console.error('AI parsing error:', err)
+      setAiError("AI service unavailable. Please add value propositions manually below.")
     } finally {
       setIsAiParsing(false)
     }
@@ -141,11 +150,17 @@ export function IcpWizard({ mode = "onboarding", initialData, onSuccess }: IcpWi
 
   const handleObjectionsAiParse = async (input: string) => {
     setIsAiParsing(true)
+    setAiError(null)
     try {
       const result = await parseObjectionsAction(input)
       if (result?.commonObjections) {
         form.setValue("commonObjections", result.commonObjections)
+      } else {
+        setAiError("AI service unavailable. Please add objections manually below.")
       }
+    } catch (err) {
+      console.error('AI parsing error:', err)
+      setAiError("AI service unavailable. Please add objections manually below.")
     } finally {
       setIsAiParsing(false)
     }
@@ -198,10 +213,15 @@ export function IcpWizard({ mode = "onboarding", initialData, onSuccess }: IcpWi
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* Error message */}
+            {/* Error messages */}
             {error && (
               <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
                 {error}
+              </div>
+            )}
+            {aiError && (
+              <div className="p-3 text-sm text-amber-700 bg-amber-50 dark:text-amber-300 dark:bg-amber-950/30 rounded-md">
+                {aiError}
               </div>
             )}
 
