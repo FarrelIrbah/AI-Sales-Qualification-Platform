@@ -8,9 +8,9 @@ import { StepIndicator } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-// Step components will be imported once created
-// import { CompanyInfoStep } from "./steps/company-info-step"
-// import { TargetCriteriaStep } from "./steps/target-criteria-step"
+// Step components - Steps 1-2 implemented in 02-02, Steps 3-4 coming in later plans
+import { CompanyInfoStep } from "./steps/company-info-step"
+import { TargetCriteriaStep } from "./steps/target-criteria-step"
 // import { ValuePropsStep } from "./steps/value-props-step"
 // import { ObjectionsStep } from "./steps/objections-step"
 
@@ -139,26 +139,18 @@ export function IcpWizard({ onSubmit, defaultValues }: IcpWizardProps) {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* Step content placeholder - will render step components */}
+            {/* Step content - Steps 1-2 implemented, 3-4 are placeholders */}
             <div className="min-h-[300px]">
-              {currentStep === 1 && (
-                <div className="text-muted-foreground text-sm">
-                  Company info step will render here
-                </div>
-              )}
-              {currentStep === 2 && (
-                <div className="text-muted-foreground text-sm">
-                  Target criteria step will render here
-                </div>
-              )}
+              {currentStep === 1 && <CompanyInfoStep />}
+              {currentStep === 2 && <TargetCriteriaStep />}
               {currentStep === 3 && (
                 <div className="text-muted-foreground text-sm">
-                  Value props step will render here
+                  Value propositions step coming in plan 02-03
                 </div>
               )}
               {currentStep === 4 && (
                 <div className="text-muted-foreground text-sm">
-                  Objections step will render here
+                  Common objections step coming in plan 02-03
                 </div>
               )}
             </div>
