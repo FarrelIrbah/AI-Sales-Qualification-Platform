@@ -13,12 +13,12 @@ export const companyInfoSchema = z.object({
     .describe('The industry the company operates in'),
   companySize: z
     .enum(['solo', 'small', 'medium', 'large', 'enterprise'], {
-      errorMap: () => ({ message: 'Please select your company size' }),
+      message: 'Please select your company size',
     })
     .describe('Company size category: solo (1), small (2-50), medium (51-200), large (201-1000), enterprise (1000+)'),
   targetMarket: z
     .enum(['b2b', 'b2c', 'both'], {
-      errorMap: () => ({ message: 'Please select your target market' }),
+      message: 'Please select your target market',
     })
     .describe('Target market type: B2B (business-to-business), B2C (business-to-consumer), or both'),
 })
