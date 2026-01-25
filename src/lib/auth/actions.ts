@@ -35,7 +35,7 @@ export type SignUpResult = {
 export async function signUp(input: SignUpInput): Promise<SignUpResult> {
   const parsed = signUpSchema.safeParse(input)
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message }
+    return { error: parsed.error.issues[0].message }
   }
 
   const supabase = await createClient()
@@ -74,7 +74,7 @@ export async function signUp(input: SignUpInput): Promise<SignUpResult> {
 export async function signIn(input: SignInInput): Promise<AuthResult> {
   const parsed = signInSchema.safeParse(input)
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message }
+    return { error: parsed.error.issues[0].message }
   }
 
   const supabase = await createClient()
@@ -138,7 +138,7 @@ export async function signOut(): Promise<void> {
 export async function resetPassword(input: ResetPasswordInput): Promise<AuthResult> {
   const parsed = resetPasswordSchema.safeParse(input)
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message }
+    return { error: parsed.error.issues[0].message }
   }
 
   const supabase = await createClient()
@@ -158,7 +158,7 @@ export async function resetPassword(input: ResetPasswordInput): Promise<AuthResu
 export async function updatePassword(input: UpdatePasswordInput): Promise<AuthResult> {
   const parsed = updatePasswordSchema.safeParse(input)
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message }
+    return { error: parsed.error.issues[0].message }
   }
 
   const supabase = await createClient()
