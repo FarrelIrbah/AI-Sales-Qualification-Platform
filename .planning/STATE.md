@@ -9,21 +9,21 @@
 
 **Core Value:** Two different users analyzing the same company get completely different, actionable recommendations based on their unique ICP.
 
-**Current Focus:** Phase 2 plans 01 and 03 complete. Plan 02 in progress. Next: Plan 04 (integration).
+**Current Focus:** Phase 2 plans 01, 02, and 03 complete. Next: Plan 04 (Onboarding Integration).
 
 ---
 
 ## Current Position
 
 **Phase:** 2 of 6 (ICP & Onboarding)
-**Plan:** 2 of 4 complete
+**Plan:** 3 of 4 complete
 **Status:** In progress
-**Last activity:** 2026-01-25 - Completed 02-03-PLAN.md (Value Props, Objections & ICP API)
+**Last activity:** 2026-01-25 - Completed 02-02-PLAN.md (ICP Wizard UI)
 
 ```
-Progress: [####......] 25.0% (8/32 requirements estimated)
+Progress: [######....] 31.3% (10/32 requirements estimated)
 Phase 1:  [##########] 100% COMPLETE
-Phase 2:  [#####.....] 50% (2/4 plans)
+Phase 2:  [#######...] 75% (3/4 plans)
 ```
 
 ---
@@ -33,14 +33,14 @@ Phase 2:  [#####.....] 50% (2/4 plans)
 | Plan | Wave | Description | Depends On | Status |
 |------|------|-------------|------------|--------|
 | 02-01 | 1 | ICP Schema & AI Infrastructure | - | COMPLETE |
-| 02-02 | 2 | ICP Wizard UI | 02-01 | In Progress |
+| 02-02 | 2 | ICP Wizard UI | 02-01 | COMPLETE |
 | 02-03 | 2 | ICP Server Actions | 02-01 | COMPLETE |
-| 02-04 | 3 | Onboarding Integration | 02-02, 02-03 | Pending |
+| 02-04 | 3 | Onboarding Integration | 02-02, 02-03 | Ready |
 
 **Wave Parallelism:**
 - Wave 1: Plan 01 - COMPLETE
-- Wave 2: Plan 02 in progress, Plan 03 COMPLETE
-- Wave 3: Plan 04 - Pending (depends on Wave 2)
+- Wave 2: Plans 02 + 03 - COMPLETE
+- Wave 3: Plan 04 - Ready (dependencies satisfied)
 
 ---
 
@@ -61,10 +61,10 @@ Phase 2:  [#####.....] 50% (2/4 plans)
 
 | Metric | Value |
 |--------|-------|
-| Plans Completed | 7 |
-| Requirements Completed | ~8/32 |
+| Plans Completed | 8 |
+| Requirements Completed | ~10/32 |
 | Phases Completed | 1/6 |
-| Current Streak | 7 |
+| Current Streak | 8 |
 
 ---
 
@@ -93,6 +93,9 @@ Phase 2:  [#####.....] 50% (2/4 plans)
 | Comma-separated differentiators | Simpler UX than tag input component, adequate for v1 | 2026-01-25 |
 | Optional objections list | Objections start empty with skip guidance per schema | 2026-01-25 |
 | ICP upsert pattern | API checks for existing ICP and updates or inserts | 2026-01-25 |
+| Zod input/output type separation | z.input for form defaults, z.output for submit handlers due to .default() | 2026-01-25 |
+| Generic AiInput component | Reusable across wizard steps via parseAction and fieldMappings props | 2026-01-25 |
+| TagInput for array fields | Common UX pattern with badges for managing string arrays | 2026-01-25 |
 
 ### Tech Stack (from Research)
 
@@ -128,7 +131,7 @@ Phase 2:  [#####.....] 50% (2/4 plans)
 
 ### Blockers
 
-None currently. Plan 02-02 in progress, 02-04 ready after 02-02 completes.
+None currently. Plan 02-04 ready to execute.
 
 ### Open Questions
 
@@ -157,6 +160,8 @@ None currently.
 | .planning/phases/02-icp-onboarding/02-RESEARCH.md | Phase 2 research findings |
 | .planning/phases/02-icp-onboarding/02-01-PLAN.md | Plan 01: ICP Schema & AI |
 | .planning/phases/02-icp-onboarding/02-01-SUMMARY.md | Plan 01: Summary |
+| .planning/phases/02-icp-onboarding/02-02-PLAN.md | Plan 02: ICP Wizard UI |
+| .planning/phases/02-icp-onboarding/02-02-SUMMARY.md | Plan 02: Summary |
 | .planning/phases/02-icp-onboarding/02-03-PLAN.md | Plan 03: Value Props & ICP API |
 | .planning/phases/02-icp-onboarding/02-03-SUMMARY.md | Plan 03: Summary |
 | .planning/config.json | Workflow configuration |
