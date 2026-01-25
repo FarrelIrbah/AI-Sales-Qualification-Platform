@@ -9,21 +9,21 @@
 
 **Core Value:** Two different users analyzing the same company get completely different, actionable recommendations based on their unique ICP.
 
-**Current Focus:** Phase 2 plan 01 complete. Continue with ICP wizard UI.
+**Current Focus:** Phase 2 plans 01 and 03 complete. Plan 02 in progress. Next: Plan 04 (integration).
 
 ---
 
 ## Current Position
 
 **Phase:** 2 of 6 (ICP & Onboarding)
-**Plan:** 1 of 4 complete
+**Plan:** 2 of 4 complete
 **Status:** In progress
-**Last activity:** 2026-01-25 - Completed 02-01-PLAN.md (ICP Schema & AI Infrastructure)
+**Last activity:** 2026-01-25 - Completed 02-03-PLAN.md (Value Props, Objections & ICP API)
 
 ```
-Progress: [###.......] 18.8% (6/32 requirements estimated)
+Progress: [####......] 25.0% (8/32 requirements estimated)
 Phase 1:  [##########] 100% COMPLETE
-Phase 2:  [##........] 25% (1/4 plans)
+Phase 2:  [#####.....] 50% (2/4 plans)
 ```
 
 ---
@@ -33,13 +33,13 @@ Phase 2:  [##........] 25% (1/4 plans)
 | Plan | Wave | Description | Depends On | Status |
 |------|------|-------------|------------|--------|
 | 02-01 | 1 | ICP Schema & AI Infrastructure | - | COMPLETE |
-| 02-02 | 2 | ICP Wizard UI | 02-01 | Ready |
-| 02-03 | 2 | ICP Server Actions | 02-01 | Ready |
+| 02-02 | 2 | ICP Wizard UI | 02-01 | In Progress |
+| 02-03 | 2 | ICP Server Actions | 02-01 | COMPLETE |
 | 02-04 | 3 | Onboarding Integration | 02-02, 02-03 | Pending |
 
 **Wave Parallelism:**
 - Wave 1: Plan 01 - COMPLETE
-- Wave 2: Plans 02 + 03 - READY (can run in parallel)
+- Wave 2: Plan 02 in progress, Plan 03 COMPLETE
 - Wave 3: Plan 04 - Pending (depends on Wave 2)
 
 ---
@@ -61,10 +61,10 @@ Phase 2:  [##........] 25% (1/4 plans)
 
 | Metric | Value |
 |--------|-------|
-| Plans Completed | 6 |
-| Requirements Completed | ~6/32 |
+| Plans Completed | 7 |
+| Requirements Completed | ~8/32 |
 | Phases Completed | 1/6 |
-| Current Streak | 6 |
+| Current Streak | 7 |
 
 ---
 
@@ -90,6 +90,9 @@ Phase 2:  [##........] 25% (1/4 plans)
 | JSONB for ICP nested data | Flexible schema evolution for targetCriteria, valuePropositions, commonObjections | 2026-01-25 |
 | Flat company info columns | Common query patterns benefit from indexed flat columns | 2026-01-25 |
 | Zod .describe() for AI parsing | Descriptions guide AI SDK structured output extraction | 2026-01-25 |
+| Comma-separated differentiators | Simpler UX than tag input component, adequate for v1 | 2026-01-25 |
+| Optional objections list | Objections start empty with skip guidance per schema | 2026-01-25 |
+| ICP upsert pattern | API checks for existing ICP and updates or inserts | 2026-01-25 |
 
 ### Tech Stack (from Research)
 
@@ -125,7 +128,7 @@ Phase 2:  [##........] 25% (1/4 plans)
 
 ### Blockers
 
-None currently. Ready for 02-02.
+None currently. Plan 02-02 in progress, 02-04 ready after 02-02 completes.
 
 ### Open Questions
 
@@ -154,6 +157,8 @@ None currently.
 | .planning/phases/02-icp-onboarding/02-RESEARCH.md | Phase 2 research findings |
 | .planning/phases/02-icp-onboarding/02-01-PLAN.md | Plan 01: ICP Schema & AI |
 | .planning/phases/02-icp-onboarding/02-01-SUMMARY.md | Plan 01: Summary |
+| .planning/phases/02-icp-onboarding/02-03-PLAN.md | Plan 03: Value Props & ICP API |
+| .planning/phases/02-icp-onboarding/02-03-SUMMARY.md | Plan 03: Summary |
 | .planning/config.json | Workflow configuration |
 
 ---
