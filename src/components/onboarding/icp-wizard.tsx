@@ -2,17 +2,22 @@
 
 import * as React from "react"
 import { useForm, FormProvider } from "react-hook-form"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fullIcpSchema, type FullIcpInput, type FullIcpOutput } from "@/lib/validations/icp"
 import { StepIndicator } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import {
+  parseValuePropsAction,
+  parseObjectionsAction,
+} from "@/lib/icp/actions"
 
-// Step components - Steps 1-2 implemented in 02-02, Steps 3-4 coming in later plans
+// Step components
 import { CompanyInfoStep } from "./steps/company-info-step"
 import { TargetCriteriaStep } from "./steps/target-criteria-step"
-// import { ValuePropsStep } from "./steps/value-props-step"
-// import { ObjectionsStep } from "./steps/objections-step"
+import { ValuePropsStep } from "./steps/value-props-step"
+import { ObjectionsStep } from "./steps/objections-step"
 
 const STEP_LABELS = ["Your Company", "Target Customers", "Value Props", "Objections"]
 const TOTAL_STEPS = 4
@@ -25,14 +30,20 @@ const STEP_FIELDS: Record<number, (keyof FullIcpInput)[]> = {
   4: ["commonObjections"],
 }
 
+export type IcpWizardMode = "onboarding" | "settings"
+
 interface IcpWizardProps {
-  onSubmit?: (data: FullIcpOutput) => Promise<void>
-  defaultValues?: Partial<FullIcpInput>
+  mode?: IcpWizardMode
+  initialData?: Partial<FullIcpInput>
+  onSuccess?: () => void
 }
 
-export function IcpWizard({ onSubmit, defaultValues }: IcpWizardProps) {
+export function IcpWizard({ mode = "onboarding", initialData, onSuccess }: IcpWizardProps) {
+  const router = useRouter()
   const [currentStep, setCurrentStep] = React.useState(1)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [isAiParsing, setIsAiParsing] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
 
   const form = useForm<FullIcpInput>({
     resolver: zodResolver(fullIcpSchema),
@@ -52,7 +63,7 @@ export function IcpWizard({ onSubmit, defaultValues }: IcpWizardProps) {
       valuePropositions: [],
       // Step 4: Common Objections
       commonObjections: [],
-      ...defaultValues,
+      ...initialData,
     },
     mode: "onChange",
   })
@@ -79,16 +90,64 @@ export function IcpWizard({ onSubmit, defaultValues }: IcpWizardProps) {
   }
 
   const handleFormSubmit = async (data: FullIcpInput) => {
-    if (!onSubmit) return
-
     setIsSubmitting(true)
+    setError(null)
+
     try {
-      // Zod applies defaults during validation, so data is FullIcpOutput at runtime
-      await onSubmit(data as unknown as FullIcpOutput)
-    } catch (error) {
-      console.error("Failed to submit ICP:", error)
+      const response = await fetch("/api/icp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Failed to save ICP")
+      }
+
+      // Call onSuccess callback if provided
+      if (onSuccess) {
+        onSuccess()
+      }
+
+      // Navigate based on mode
+      if (mode === "onboarding") {
+        router.push("/dashboard")
+        router.refresh()
+      } else {
+        // In settings mode, just refresh to show updated data
+        router.refresh()
+      }
+    } catch (err) {
+      console.error("Failed to submit ICP:", err)
+      setError(err instanceof Error ? err.message : "Failed to save ICP")
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  // AI parsing handlers for Steps 3 and 4
+  const handleValuePropsAiParse = async (input: string) => {
+    setIsAiParsing(true)
+    try {
+      const result = await parseValuePropsAction(input)
+      if (result?.valuePropositions) {
+        form.setValue("valuePropositions", result.valuePropositions)
+      }
+    } finally {
+      setIsAiParsing(false)
+    }
+  }
+
+  const handleObjectionsAiParse = async (input: string) => {
+    setIsAiParsing(true)
+    try {
+      const result = await parseObjectionsAction(input)
+      if (result?.commonObjections) {
+        form.setValue("commonObjections", result.commonObjections)
+      }
+    } finally {
+      setIsAiParsing(false)
     }
   }
 
@@ -139,19 +198,28 @@ export function IcpWizard({ onSubmit, defaultValues }: IcpWizardProps) {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* Step content - Steps 1-2 implemented, 3-4 are placeholders */}
+            {/* Error message */}
+            {error && (
+              <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+                {error}
+              </div>
+            )}
+
+            {/* Step content */}
             <div className="min-h-[300px]">
               {currentStep === 1 && <CompanyInfoStep />}
               {currentStep === 2 && <TargetCriteriaStep />}
               {currentStep === 3 && (
-                <div className="text-muted-foreground text-sm">
-                  Value propositions step coming in plan 02-03
-                </div>
+                <ValuePropsStep
+                  onAiParse={handleValuePropsAiParse}
+                  isAiParsing={isAiParsing}
+                />
               )}
               {currentStep === 4 && (
-                <div className="text-muted-foreground text-sm">
-                  Common objections step coming in plan 02-03
-                </div>
+                <ObjectionsStep
+                  onAiParse={handleObjectionsAiParse}
+                  isAiParsing={isAiParsing}
+                />
               )}
             </div>
 
@@ -166,15 +234,32 @@ export function IcpWizard({ onSubmit, defaultValues }: IcpWizardProps) {
                 Back
               </Button>
 
-              {currentStep < TOTAL_STEPS ? (
-                <Button type="button" onClick={handleNext}>
-                  Next
-                </Button>
-              ) : (
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Saving..." : "Complete Setup"}
-                </Button>
-              )}
+              <div className="flex gap-2">
+                {/* In settings mode, allow saving from any step */}
+                {mode === "settings" && currentStep < TOTAL_STEPS && (
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Saving..." : "Save Changes"}
+                  </Button>
+                )}
+
+                {currentStep < TOTAL_STEPS ? (
+                  <Button type="button" onClick={handleNext}>
+                    Next
+                  </Button>
+                ) : (
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting
+                      ? "Saving..."
+                      : mode === "onboarding"
+                        ? "Complete Setup"
+                        : "Save Changes"}
+                  </Button>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
