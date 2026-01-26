@@ -1,7 +1,7 @@
 # Project State: LeadQual
 
-**Last Updated:** 2026-01-26
-**Session:** Phase 2 Complete
+**Last Updated:** 2026-01-27
+**Session:** Phase 3 In Progress
 
 ---
 
@@ -9,38 +9,39 @@
 
 **Core Value:** Two different users analyzing the same company get completely different, actionable recommendations based on their unique ICP.
 
-**Current Focus:** Phase 2 complete. All ICP requirements (ICP-01 to ICP-07) satisfied. Next: Phase 3 (Data Extraction).
+**Current Focus:** Phase 3 started. Plan 01 (Extraction Foundation) complete. Next: Plan 02 (Fallback Chain).
 
 ---
 
 ## Current Position
 
-**Phase:** 2 of 6 (ICP & Onboarding)
-**Plan:** 4 of 4 complete
-**Status:** COMPLETE
-**Last activity:** 2026-01-26 - Completed 02-04-PLAN.md (Onboarding Integration)
+**Phase:** 3 of 6 (Data Extraction)
+**Plan:** 1 of 4 complete
+**Status:** In progress
+**Last activity:** 2026-01-27 - Completed 03-01-PLAN.md (Extraction Foundation)
 
 ```
-Progress: [########..] 40.6% (13/32 requirements estimated)
+Progress: [########..] 46.9% (15/32 requirements estimated)
 Phase 1:  [##########] 100% COMPLETE
 Phase 2:  [##########] 100% COMPLETE
+Phase 3:  [###.......] 25% (1/4 plans)
 ```
 
 ---
 
-## Phase 2 Plan Structure
+## Phase 3 Plan Structure
 
 | Plan | Wave | Description | Depends On | Status |
 |------|------|-------------|------------|--------|
-| 02-01 | 1 | ICP Schema & AI Infrastructure | - | COMPLETE |
-| 02-02 | 2 | ICP Wizard UI | 02-01 | COMPLETE |
-| 02-03 | 2 | ICP Server Actions | 02-01 | COMPLETE |
-| 02-04 | 3 | Onboarding Integration | 02-02, 02-03 | COMPLETE |
+| 03-01 | 1 | Extraction Foundation | - | COMPLETE |
+| 03-02 | 2 | Fallback Chain | 03-01 | Pending |
+| 03-03 | 2 | Extraction API | 03-01 | Pending |
+| 03-04 | 3 | Manual Input Form | 03-02, 03-03 | Pending |
 
 **Wave Parallelism:**
 - Wave 1: Plan 01 - COMPLETE
-- Wave 2: Plans 02 + 03 - COMPLETE
-- Wave 3: Plan 04 - COMPLETE
+- Wave 2: Plans 02 + 03 - Pending
+- Wave 3: Plan 04 - Pending
 
 ---
 
@@ -50,7 +51,7 @@ Phase 2:  [##########] 100% COMPLETE
 |-------|------|--------|--------------|
 | 1 | Foundation | COMPLETE | AUTH-01 to AUTH-04 |
 | 2 | ICP & Onboarding | COMPLETE | ICP-01 to ICP-07 |
-| 3 | Data Extraction | Pending | DATA-01 to DATA-05 |
+| 3 | Data Extraction | In Progress | DATA-01 to DATA-05 |
 | 4 | AI Analysis | Pending | ANLZ-01 to ANLZ-07 |
 | 5 | Dashboard | Pending | DASH-01 to DASH-10 |
 | 6 | Billing & Polish | Pending | BILL-01 to BILL-09 |
@@ -61,10 +62,10 @@ Phase 2:  [##########] 100% COMPLETE
 
 | Metric | Value |
 |--------|-------|
-| Plans Completed | 9 |
-| Requirements Completed | ~13/32 |
+| Plans Completed | 10 |
+| Requirements Completed | ~15/32 |
 | Phases Completed | 2/6 |
-| Current Streak | 9 |
+| Current Streak | 10 |
 
 ---
 
@@ -99,6 +100,10 @@ Phase 2:  [##########] 100% COMPLETE
 | Google Gemini AI provider | Switched from OpenAI to Gemini (gemini-2.0-flash) for accessibility | 2026-01-26 |
 | Wizard mode prop pattern | IcpWizard accepts mode (onboarding/settings) for context-aware behavior | 2026-01-26 |
 | DB to form transform helper | Server-side JSONB to nested form object transformation | 2026-01-26 |
+| Separate full/partial/manual schemas | Extraction returns partial data progressively; different schemas per use case | 2026-01-27 |
+| Cheerio first, Playwright fallback | Static fetch + Cheerio is 10x faster with no cold start; handles most pages | 2026-01-27 |
+| SPA detection requires both markers AND minimal content | Prevents false positives on SSR apps with SPA markers | 2026-01-27 |
+| Hunter.io graceful degradation | Return null on any API failure; enrichment is optional enhancement | 2026-01-27 |
 
 ### Tech Stack (from Research)
 
@@ -134,7 +139,7 @@ Phase 2:  [##########] 100% COMPLETE
 
 ### Blockers
 
-None currently. Phase 2 complete. Phase 3 ready to plan.
+None currently. Plan 03-01 complete. Ready for 03-02 (Fallback Chain).
 
 ### Open Questions
 
@@ -146,8 +151,8 @@ None currently.
 - [x] Execute Phase 1 with `/gsd:execute-phase 1`
 - [x] Plan Phase 2 with `/gsd:plan-phase 2`
 - [x] Execute Phase 2 plans
-- [ ] Plan Phase 3 with `/gsd:plan-phase 3`
-- [ ] Execute Phase 3 plans
+- [x] Plan Phase 3 with `/gsd:plan-phase 3`
+- [ ] Execute Phase 3 plans (1/4 complete)
 
 ---
 
@@ -163,14 +168,12 @@ None currently.
 | .planning/phases/01-foundation/01-0X-*.md | Phase 1 plans and summaries |
 | .planning/phases/01-foundation/01-VERIFICATION.md | Phase 1 verification report |
 | .planning/phases/02-icp-onboarding/02-RESEARCH.md | Phase 2 research findings |
-| .planning/phases/02-icp-onboarding/02-01-PLAN.md | Plan 01: ICP Schema & AI |
-| .planning/phases/02-icp-onboarding/02-01-SUMMARY.md | Plan 01: Summary |
-| .planning/phases/02-icp-onboarding/02-02-PLAN.md | Plan 02: ICP Wizard UI |
-| .planning/phases/02-icp-onboarding/02-02-SUMMARY.md | Plan 02: Summary |
-| .planning/phases/02-icp-onboarding/02-03-PLAN.md | Plan 03: Value Props & ICP API |
-| .planning/phases/02-icp-onboarding/02-03-SUMMARY.md | Plan 03: Summary |
-| .planning/phases/02-icp-onboarding/02-04-PLAN.md | Plan 04: Onboarding Integration |
-| .planning/phases/02-icp-onboarding/02-04-SUMMARY.md | Plan 04: Summary |
+| .planning/phases/02-icp-onboarding/02-0X-*.md | Phase 2 plans and summaries |
+| .planning/phases/03-data-extraction/03-RESEARCH.md | Phase 3 research findings |
+| .planning/phases/03-data-extraction/03-CONTEXT.md | Phase 3 context |
+| .planning/phases/03-data-extraction/03-PHASE.md | Phase 3 plan structure |
+| .planning/phases/03-data-extraction/03-01-PLAN.md | Plan 01: Extraction Foundation |
+| .planning/phases/03-data-extraction/03-01-SUMMARY.md | Plan 01: Summary |
 | .planning/config.json | Workflow configuration |
 
 ---
@@ -180,3 +183,4 @@ None currently.
 *Phase 1 complete: 2026-01-24*
 *Phase 2 started: 2026-01-25*
 *Phase 2 complete: 2026-01-26*
+*Phase 3 started: 2026-01-27*
