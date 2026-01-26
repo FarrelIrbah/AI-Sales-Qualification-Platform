@@ -58,3 +58,45 @@ export const icpProfiles = pgTable('icp_profiles', {
 // Type exports for ICP profiles
 export type IcpProfile = typeof icpProfiles.$inferSelect
 export type NewIcpProfile = typeof icpProfiles.$inferInsert
+
+// Companies table - stores extracted company data
+export const companies = pgTable('companies', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => profiles.id, { onDelete: 'cascade' }),
+
+  // Identifiers
+  domain: text('domain').notNull(),
+  url: text('url').notNull(),
+
+  // Core data
+  name: text('name').notNull(),
+  description: text('description'),
+  industry: text('industry'),
+  employeeCount: text('employee_count'),
+  location: text('location'),
+  foundedYear: text('founded_year'),
+
+  // Arrays as JSONB
+  techStack: jsonb('tech_stack').$type<string[]>().default([]),
+  emails: jsonb('emails').$type<string[]>().default([]),
+  phones: jsonb('phones').$type<string[]>().default([]),
+
+  // Social/meta
+  linkedIn: text('linkedin'),
+  twitter: text('twitter'),
+  logoUrl: text('logo_url'),
+
+  // Extraction metadata
+  extractionSources: jsonb('extraction_sources').$type<string[]>().default([]),
+  extractionConfidence: text('extraction_confidence'), // high/medium/low
+
+  // Timestamps
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+})
+
+// Type exports for companies
+export type Company = typeof companies.$inferSelect
+export type NewCompany = typeof companies.$inferInsert
