@@ -16,13 +16,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### ICP System
 
-- [ ] **ICP-01**: User completes ICP setup wizard during onboarding
-- [ ] **ICP-02**: ICP wizard captures company info (what they sell, industry, size)
-- [ ] **ICP-03**: ICP wizard captures target criteria (ideal company size, industries, tech requirements)
-- [ ] **ICP-04**: ICP wizard captures value propositions (key benefits/differentiators)
-- [ ] **ICP-05**: ICP wizard captures common objections (typical pushbacks they face)
-- [ ] **ICP-06**: User can describe ideal customer in natural language, AI parses into structured ICP
-- [ ] **ICP-07**: User can edit ICP anytime in settings
+- [x] **ICP-01**: User completes ICP setup wizard during onboarding
+- [x] **ICP-02**: ICP wizard captures company info (what they sell, industry, size)
+- [x] **ICP-03**: ICP wizard captures target criteria (ideal company size, industries, tech requirements)
+- [x] **ICP-04**: ICP wizard captures value propositions (key benefits/differentiators)
+- [x] **ICP-05**: ICP wizard captures common objections (typical pushbacks they face)
+- [x] **ICP-06**: User can describe ideal customer in natural language, AI parses into structured ICP
+- [x] **ICP-07**: User can edit ICP anytime in settings
 
 ### Data Extraction
 
@@ -133,13 +133,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-02 | Phase 1 - Foundation | Complete |
 | AUTH-03 | Phase 1 - Foundation | Complete |
 | AUTH-04 | Phase 1 - Foundation | Complete |
-| ICP-01 | Phase 2 - ICP & Onboarding | Pending |
-| ICP-02 | Phase 2 - ICP & Onboarding | Pending |
-| ICP-03 | Phase 2 - ICP & Onboarding | Pending |
-| ICP-04 | Phase 2 - ICP & Onboarding | Pending |
-| ICP-05 | Phase 2 - ICP & Onboarding | Pending |
-| ICP-06 | Phase 2 - ICP & Onboarding | Pending |
-| ICP-07 | Phase 2 - ICP & Onboarding | Pending |
+| ICP-01 | Phase 2 - ICP & Onboarding | Complete |
+| ICP-02 | Phase 2 - ICP & Onboarding | Complete |
+| ICP-03 | Phase 2 - ICP & Onboarding | Complete |
+| ICP-04 | Phase 2 - ICP & Onboarding | Complete |
+| ICP-05 | Phase 2 - ICP & Onboarding | Complete |
+| ICP-06 | Phase 2 - ICP & Onboarding | Complete |
+| ICP-07 | Phase 2 - ICP & Onboarding | Complete |
 | DATA-01 | Phase 3 - Data Extraction | Pending |
 | DATA-02 | Phase 3 - Data Extraction | Pending |
 | DATA-03 | Phase 3 - Data Extraction | Pending |
@@ -179,4 +179,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-22*
-*Last updated: 2026-01-23 after roadmap creation*
+*Last updated: 2026-01-26 after Phase 2 completion*
