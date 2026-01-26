@@ -92,6 +92,14 @@ Plans:
 4. When all automated methods fail, user sees manual input form pre-filled with any partial data
 5. User always receives some company data to proceed with analysis (never blank failure)
 
+**Plans:** 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md - Company schemas + scraper + enrichment client
+- [ ] 03-02-PLAN.md - Fallback chain orchestrator + API endpoint
+- [ ] 03-03-PLAN.md - Extraction UI components (URL input, progress, manual form)
+- [ ] 03-04-PLAN.md - Analyze page integration + verification
+
 ---
 
 ## Phase 4: AI Analysis
@@ -177,7 +185,7 @@ Plans:
 |-------|--------|--------------|------------|
 | 1. Foundation | Complete | AUTH-01, AUTH-02, AUTH-03, AUTH-04 | 100% |
 | 2. ICP & Onboarding | Complete | ICP-01 through ICP-07 | 100% |
-| 3. Data Extraction | Pending | DATA-01 through DATA-05 | 0% |
+| 3. Data Extraction | Planned | DATA-01 through DATA-05 | 0% |
 | 4. AI Analysis | Pending | ANLZ-01 through ANLZ-07 | 0% |
 | 5. Dashboard | Pending | DASH-01 through DASH-10 | 0% |
 | 6. Billing & Polish | Pending | BILL-01 through BILL-09 | 0% |
@@ -194,13 +202,13 @@ Plans:
 | AUTH-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete |
-| ICP-01 | Phase 2 | Pending |
-| ICP-02 | Phase 2 | Pending |
-| ICP-03 | Phase 2 | Pending |
-| ICP-04 | Phase 2 | Pending |
-| ICP-05 | Phase 2 | Pending |
-| ICP-06 | Phase 2 | Pending |
-| ICP-07 | Phase 2 | Pending |
+| ICP-01 | Phase 2 | Complete |
+| ICP-02 | Phase 2 | Complete |
+| ICP-03 | Phase 2 | Complete |
+| ICP-04 | Phase 2 | Complete |
+| ICP-05 | Phase 2 | Complete |
+| ICP-06 | Phase 2 | Complete |
+| ICP-07 | Phase 2 | Complete |
 | DATA-01 | Phase 3 | Pending |
 | DATA-02 | Phase 3 | Pending |
 | DATA-03 | Phase 3 | Pending |
