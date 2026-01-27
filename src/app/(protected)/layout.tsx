@@ -38,6 +38,12 @@ export default async function ProtectedLayout({
                 Dashboard
               </Link>
               <Link
+                href="/analyze"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Analyze
+              </Link>
+              <Link
                 href="/settings/icp"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
