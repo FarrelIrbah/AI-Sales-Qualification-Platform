@@ -26,11 +26,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Data Extraction
 
-- [ ] **DATA-01**: User can input company URL for analysis
-- [ ] **DATA-02**: System scrapes company website for data (industry, size, location, tech stack)
-- [ ] **DATA-03**: System falls back to enrichment APIs when website scraping fails or returns incomplete data
-- [ ] **DATA-04**: System offers manual input form when all automated extraction fails
-- [ ] **DATA-05**: System always returns something actionable, never a blank failure
+- [x] **DATA-01**: User can input company URL for analysis
+- [x] **DATA-02**: System scrapes company website for data (industry, size, location, tech stack)
+- [x] **DATA-03**: System falls back to enrichment APIs when website scraping fails or returns incomplete data
+- [x] **DATA-04**: System offers manual input form when all automated extraction fails
+- [x] **DATA-05**: System always returns something actionable, never a blank failure
 
 ### AI Analysis
 
@@ -140,11 +140,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ICP-05 | Phase 2 - ICP & Onboarding | Complete |
 | ICP-06 | Phase 2 - ICP & Onboarding | Complete |
 | ICP-07 | Phase 2 - ICP & Onboarding | Complete |
-| DATA-01 | Phase 3 - Data Extraction | Pending |
-| DATA-02 | Phase 3 - Data Extraction | Pending |
-| DATA-03 | Phase 3 - Data Extraction | Pending |
-| DATA-04 | Phase 3 - Data Extraction | Pending |
-| DATA-05 | Phase 3 - Data Extraction | Pending |
+| DATA-01 | Phase 3 - Data Extraction | Complete |
+| DATA-02 | Phase 3 - Data Extraction | Complete |
+| DATA-03 | Phase 3 - Data Extraction | Complete |
+| DATA-04 | Phase 3 - Data Extraction | Complete |
+| DATA-05 | Phase 3 - Data Extraction | Complete |
 | ANLZ-01 | Phase 4 - AI Analysis | Pending |
 | ANLZ-02 | Phase 4 - AI Analysis | Pending |
 | ANLZ-03 | Phase 4 - AI Analysis | Pending |
@@ -179,4 +179,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-22*
-*Last updated: 2026-01-26 after Phase 2 completion*
+*Last updated: 2026-02-06 after Phase 3 completion*
