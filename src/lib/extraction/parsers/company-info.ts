@@ -42,7 +42,7 @@ export function extractCompanyInfo(
       $('meta[property="og:site_name"]').attr('content') ||
       $('meta[name="application-name"]').attr('content') ||
       extractNameFromTitle($('title').text()) ||
-      capitalizeFirstLetter(info.domain.split('.')[0])
+      (info.domain ? capitalizeFirstLetter(info.domain.split('.')[0]) : undefined)
   }
 
   // Extract description
