@@ -7,15 +7,23 @@ import { Button } from '@/components/ui/button';
 import { UrlInput } from '@/components/analyze/url-input';
 import { ExtractionProgress } from '@/components/analyze/extraction-progress';
 import { ManualInputForm } from '@/components/analyze/manual-input-form';
+import { AnalysisProgress, type AnalysisProgressResult } from '@/components/analysis/analysis-progress';
+import { LeadScoreCard } from '@/components/analysis/lead-score-card';
+import { ScoreBreakdown } from '@/components/analysis/score-breakdown';
+import { CompanyInsights } from '@/components/analysis/company-insights';
+import { PitchAngles } from '@/components/analysis/pitch-angles';
+import { ObjectionCards } from '@/components/analysis/objection-cards';
 import type { ExtractionResult } from '@/lib/extraction/fallback-chain';
 import type { PartialCompanyData, ManualCompanyInput } from '@/lib/validations/company';
+import type { AnalysisResult } from '@/lib/analysis/schemas';
 import { ArrowLeft, Building2 } from 'lucide-react';
 
 type ViewState =
   | { type: 'input' }
   | { type: 'extracting'; url: string }
   | { type: 'manual'; partialData: PartialCompanyData; missingFields: string[] }
-  | { type: 'result'; data: PartialCompanyData; sources: string[] };
+  | { type: 'analyzing'; companyData: PartialCompanyData; url: string }
+  | { type: 'result'; analysisId: string; analysis: AnalysisResult; companyData: PartialCompanyData };
 
 export default function AnalyzePage() {
   const router = useRouter();
@@ -33,10 +41,11 @@ export default function AnalyzePage() {
         missingFields: result.missingFields,
       });
     } else {
+      // Auto-start analysis after successful extraction
       setView({
-        type: 'result',
-        data: result.data,
-        sources: result.sources,
+        type: 'analyzing',
+        companyData: result.data,
+        url: result.data.domain ? `https://${result.data.domain}` : '',
       });
     }
   }
@@ -59,10 +68,11 @@ export default function AnalyzePage() {
         ? { ...view.partialData, ...data }
         : { ...data };
 
+    // Auto-start analysis after manual input
     setView({
-      type: 'result',
-      data: mergedData,
-      sources: ['manual'],
+      type: 'analyzing',
+      companyData: mergedData,
+      url: mergedData.domain ? `https://${mergedData.domain}` : '',
     });
   }
 
@@ -70,23 +80,29 @@ export default function AnalyzePage() {
     setView({ type: 'input' });
   }
 
-  function handleEditResult() {
-    if (view.type === 'result') {
-      setView({
-        type: 'manual',
-        partialData: view.data,
-        missingFields: [],
-      });
-    }
+  function handleAnalysisComplete(result: AnalysisProgressResult) {
+    setView({
+      type: 'result',
+      analysisId: result.analysisId,
+      analysis: result.analysis,
+      companyData: view.type === 'analyzing' ? view.companyData : {},
+    });
   }
 
-  function handleProceedToAnalysis() {
-    if (view.type === 'result') {
-      // TODO: In Phase 4, this will navigate to analysis with the company data
-      // For now, just log and show success
-      console.log('Proceeding to analysis with:', view.data);
-      alert('Company data ready! Analysis feature coming in Phase 4.');
-    }
+  function handleAnalysisError(error: string) {
+    // On analysis error, go back to manual input with current data
+    const currentData = view.type === 'analyzing' ? view.companyData : {};
+    setView({
+      type: 'manual',
+      partialData: currentData,
+      missingFields: [],
+    });
+    // Error is already logged by AnalysisProgress
+    console.error('Analysis failed:', error);
+  }
+
+  function handleAnalyzeAnother() {
+    setView({ type: 'input' });
   }
 
   return (
@@ -177,87 +193,62 @@ export default function AnalyzePage() {
         </Card>
       )}
 
-      {view.type === 'result' && (
+      {view.type === 'analyzing' && (
         <Card>
           <CardHeader>
-            <CardTitle>Company Information</CardTitle>
+            <CardTitle>Analyzing Lead</CardTitle>
             <CardDescription>
-              Data extracted from {view.sources.join(' and ')}
+              Generating personalized recommendations based on your ICP
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Company info display */}
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">
-                  Company Name
-                </label>
-                <p className="text-lg font-semibold">{view.data.name || '-'}</p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Industry
-                  </label>
-                  <p>{view.data.industry || '-'}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Size
-                  </label>
-                  <p>{view.data.employeeCount || '-'}</p>
-                </div>
-              </div>
-
-              {view.data.description && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Description
-                  </label>
-                  <p className="text-sm">{view.data.description}</p>
-                </div>
-              )}
-
-              {view.data.location && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Location
-                  </label>
-                  <p>{view.data.location}</p>
-                </div>
-              )}
-
-              {view.data.techStack && view.data.techStack.length > 0 && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Tech Stack
-                  </label>
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {view.data.techStack.map((tech, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-0.5 bg-muted rounded text-sm"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Actions */}
-            <div className="flex gap-3 pt-4 border-t">
-              <Button variant="outline" onClick={handleEditResult}>
-                Edit
-              </Button>
-              <Button onClick={handleProceedToAnalysis} className="flex-1">
-                Continue to Analysis
-              </Button>
-            </div>
+          <CardContent>
+            <AnalysisProgress
+              companyData={view.companyData}
+              url={view.url}
+              onComplete={handleAnalysisComplete}
+              onError={handleAnalysisError}
+            />
           </CardContent>
         </Card>
+      )}
+
+      {view.type === 'result' && (
+        <div className="space-y-6">
+          {/* Lead Score Card */}
+          <LeadScoreCard
+            score={view.analysis.leadScore}
+            icpMatchPercentage={view.analysis.icpMatchPercentage}
+            companyName={view.companyData.name || 'Unknown Company'}
+          />
+
+          {/* Score Breakdown */}
+          <ScoreBreakdown
+            componentScores={view.analysis.componentScores}
+            icpMatchPercentage={view.analysis.icpMatchPercentage}
+          />
+
+          {/* Company Insights */}
+          <CompanyInsights
+            insights={view.analysis.insights}
+            companyData={view.companyData}
+          />
+
+          {/* Pitch Angles */}
+          <PitchAngles pitchAngles={view.analysis.pitchAngles} />
+
+          {/* Objections */}
+          <ObjectionCards objections={view.analysis.objections} />
+
+          {/* Actions */}
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={handleAnalyzeAnother} className="flex-1">
+              Analyze Another
+            </Button>
+            <Button onClick={() => router.push('/dashboard')} className="flex-1">
+              View Dashboard
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );
