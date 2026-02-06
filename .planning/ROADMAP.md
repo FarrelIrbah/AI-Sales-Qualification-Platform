@@ -124,6 +124,15 @@ Plans:
 4. User sees 2-3 personalized pitch angles tailored to their value props and target company
 5. User sees predicted objections with recommended handling strategies
 
+**Plans:** 5 plans
+
+Plans:
+- [ ] 04-01-PLAN.md - Analysis schemas + database migration
+- [ ] 04-02-PLAN.md - AI prompt + server actions + API endpoint
+- [ ] 04-03-PLAN.md - UI components (collapsible, progress, score card)
+- [ ] 04-04-PLAN.md - UI components (breakdown, insights, pitches, objections)
+- [ ] 04-05-PLAN.md - Analyze page integration + verification
+
 ---
 
 ## Phase 5: Dashboard
@@ -186,7 +195,7 @@ Plans:
 | 1. Foundation | Complete | AUTH-01, AUTH-02, AUTH-03, AUTH-04 | 100% |
 | 2. ICP & Onboarding | Complete | ICP-01 through ICP-07 | 100% |
 | 3. Data Extraction | Complete | DATA-01 through DATA-05 | 100% |
-| 4. AI Analysis | Pending | ANLZ-01 through ANLZ-07 | 0% |
+| 4. AI Analysis | Planned | ANLZ-01 through ANLZ-07 | 0% |
 | 5. Dashboard | Pending | DASH-01 through DASH-10 | 0% |
 | 6. Billing & Polish | Pending | BILL-01 through BILL-09 | 0% |
 
@@ -209,11 +218,11 @@ Plans:
 | ICP-05 | Phase 2 | Complete |
 | ICP-06 | Phase 2 | Complete |
 | ICP-07 | Phase 2 | Complete |
-| DATA-01 | Phase 3 | Pending |
-| DATA-02 | Phase 3 | Pending |
-| DATA-03 | Phase 3 | Pending |
-| DATA-04 | Phase 3 | Pending |
-| DATA-05 | Phase 3 | Pending |
+| DATA-01 | Phase 3 | Complete |
+| DATA-02 | Phase 3 | Complete |
+| DATA-03 | Phase 3 | Complete |
+| DATA-04 | Phase 3 | Complete |
+| DATA-05 | Phase 3 | Complete |
 | ANLZ-01 | Phase 4 | Pending |
 | ANLZ-02 | Phase 4 | Pending |
 | ANLZ-03 | Phase 4 | Pending |
