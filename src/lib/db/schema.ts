@@ -1,4 +1,10 @@
-import { pgTable, uuid, text, timestamp, boolean, jsonb } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, text, timestamp, boolean, jsonb, integer } from 'drizzle-orm/pg-core'
+import type {
+  ComponentScore,
+  PitchAngle,
+  PredictedObjection,
+  CompanyInsights,
+} from '@/lib/analysis/schemas'
 
 export const profiles = pgTable('profiles', {
   id: uuid('id').primaryKey(),
@@ -100,3 +106,35 @@ export const companies = pgTable('companies', {
 // Type exports for companies
 export type Company = typeof companies.$inferSelect
 export type NewCompany = typeof companies.$inferInsert
+
+// Analyses table - stores AI-generated lead analysis results
+export const analyses = pgTable('analyses', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => profiles.id, { onDelete: 'cascade' }),
+  companyId: uuid('company_id')
+    .notNull()
+    .references(() => companies.id, { onDelete: 'cascade' }),
+  icpProfileId: uuid('icp_profile_id')
+    .notNull()
+    .references(() => icpProfiles.id, { onDelete: 'cascade' }),
+
+  // Core scores (flat for querying/filtering in Phase 5)
+  leadScore: integer('lead_score').notNull(),
+  icpMatchPercentage: integer('icp_match_percentage').notNull(),
+
+  // Complex nested data as JSONB
+  componentScores: jsonb('component_scores').$type<ComponentScore[]>().notNull(),
+  insights: jsonb('insights').$type<CompanyInsights>().notNull(),
+  pitchAngles: jsonb('pitch_angles').$type<PitchAngle[]>().notNull(),
+  objections: jsonb('objections').$type<PredictedObjection[]>().notNull(),
+
+  // Timestamps
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+})
+
+// Type exports for analyses
+export type Analysis = typeof analyses.$inferSelect
+export type NewAnalysis = typeof analyses.$inferInsert
