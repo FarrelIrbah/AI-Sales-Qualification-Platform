@@ -4,6 +4,7 @@ import { useState } from 'react'
 import * as Collapsible from '@radix-ui/react-collapsible'
 import type { DashboardLead } from '@/lib/dashboard/queries'
 import { LeadCard } from './lead-card'
+import { LeadDetail } from './lead-detail'
 
 interface LeadGridProps {
   leads: DashboardLead[]
@@ -43,11 +44,7 @@ export function LeadGrid({ leads }: LeadGridProps) {
             {/* Expanded detail section with Collapsible animation */}
             <Collapsible.Root open={isExpanded}>
               <Collapsible.Content className="overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-1 data-[state=open]:slide-in-from-top-1">
-                <div className="mt-4 p-6 border rounded-lg bg-muted/30">
-                  <p className="text-muted-foreground text-center">
-                    Detail view - Plan 03
-                  </p>
-                </div>
+                <LeadDetail analysis={lead.analysis} company={lead.company} />
               </Collapsible.Content>
             </Collapsible.Root>
           </div>
