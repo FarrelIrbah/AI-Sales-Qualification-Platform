@@ -15,19 +15,20 @@
 
 ## Current Position
 
-**Phase:** 5 of 6 (Dashboard) — IN PROGRESS
-**Plan:** 3 of 5 complete
+**Phase:** 6 of 7 (AI Validation) — IN PROGRESS
+**Plan:** Starting
 **Status:** In progress
-**Last activity:** 2026-02-10 - Completed 05-03-PLAN.md (Detail View & Actions)
+**Last activity:** 2026-02-10 - Started Phase 6 (AI Validation)
 
 ```
-Progress: [█████████░] 95% (30/32 requirements mapped)
+Progress: [███████░░░] 58% (23/40 requirements)
 Phase 1:  [##########] 100% COMPLETE
 Phase 2:  [##########] 100% COMPLETE
 Phase 3:  [##########] 100% COMPLETE
 Phase 4:  [##########] 100% COMPLETE
 Phase 5:  [######----]  60% (plan 3/5 complete)
-Phase 6:  [----------]   0%
+Phase 6:  [----------]   0% IN PROGRESS
+Phase 7:  [----------]   0%
 ```
 
 ---
@@ -41,7 +42,8 @@ Phase 6:  [----------]   0%
 | 3 | Data Extraction | COMPLETE | DATA-01 to DATA-05 |
 | 4 | AI Analysis | COMPLETE | ANLZ-01 to ANLZ-07 |
 | 5 | Dashboard | IN PROGRESS | DASH-01 to DASH-10 (3/5 plans complete) |
-| 6 | Billing & Polish | Pending | BILL-01 to BILL-09 |
+| 6 | AI Validation | IN PROGRESS | VALID-01 to VALID-08 |
+| 7 | Billing & Polish | Pending | BILL-01 to BILL-09 |
 
 ---
 
@@ -50,8 +52,8 @@ Phase 6:  [----------]   0%
 | Metric | Value |
 |--------|-------|
 | Plans Completed | 25 |
-| Requirements Completed | 30/32 |
-| Phases Completed | 4/6 |
+| Requirements Completed | 23/40 |
+| Phases Completed | 4/7 |
 | Current Streak | 25 |
 
 ---
@@ -96,6 +98,9 @@ Phase 6:  [----------]   0%
 | Simple toast pattern | State-based messages with auto-dismiss, no external library | 2026-02-10 |
 | Re-analyze navigation | router.push to /analyze with URL param, allows review before re-run | 2026-02-10 |
 | Export All respects filters | Export button exports only currently displayed/filtered leads | 2026-02-10 |
+| Full in-app validation | Validation built into app (not standalone script) for thesis requirements | 2026-02-10 |
+| On-the-fly metrics | No validation_metrics table; computed from expert_ratings at render time | 2026-02-10 |
+| Cohen's Kappa + Pearson r | Academic standard for inter-rater reliability (Cohen 1960, Landis & Koch 1977) | 2026-02-10 |
 
 ### Tech Stack
 

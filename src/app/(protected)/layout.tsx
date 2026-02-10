@@ -49,6 +49,12 @@ export default async function ProtectedLayout({
               >
                 ICP Settings
               </Link>
+              <Link
+                href="/validation"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Validation
+              </Link>
             </nav>
           </div>
           <UserNav

@@ -55,6 +55,17 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **DASH-09**: User can archive leads to remove from active list
 - [ ] **DASH-10**: User can re-analyze a lead to refresh data
 
+### AI Validation
+
+- [ ] **VALID-01**: Expert can rate lead scores on same dimensions as AI (leadScore, icpMatch, 6 components)
+- [ ] **VALID-02**: Expert can validate data extraction accuracy per field (correct/incorrect/partial)
+- [ ] **VALID-03**: System supports blind rating mode (AI scores hidden during expert evaluation)
+- [ ] **VALID-04**: System auto-calculates Cohen's Kappa for categorical agreement (Hot/Warm/Cold)
+- [ ] **VALID-05**: System auto-calculates Pearson correlation for numeric score agreement
+- [ ] **VALID-06**: System displays confusion matrix, precision/recall/F1, MAE/RMSE
+- [ ] **VALID-07**: System shows validation report with interpretation guidelines (Landis & Koch 1977)
+- [ ] **VALID-08**: Multiple experts can rate the same analysis independently
+
 ### Billing
 
 - [ ] **BILL-01**: Free tier allows 10 lead analyses per month
@@ -162,19 +173,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DASH-08 | Phase 5 - Dashboard | Pending |
 | DASH-09 | Phase 5 - Dashboard | Pending |
 | DASH-10 | Phase 5 - Dashboard | Pending |
-| BILL-01 | Phase 6 - Billing & Polish | Pending |
-| BILL-02 | Phase 6 - Billing & Polish | Pending |
-| BILL-03 | Phase 6 - Billing & Polish | Pending |
-| BILL-04 | Phase 6 - Billing & Polish | Pending |
-| BILL-05 | Phase 6 - Billing & Polish | Pending |
-| BILL-06 | Phase 6 - Billing & Polish | Pending |
-| BILL-07 | Phase 6 - Billing & Polish | Pending |
-| BILL-08 | Phase 6 - Billing & Polish | Pending |
-| BILL-09 | Phase 6 - Billing & Polish | Pending |
+| VALID-01 | Phase 6 - AI Validation | Pending |
+| VALID-02 | Phase 6 - AI Validation | Pending |
+| VALID-03 | Phase 6 - AI Validation | Pending |
+| VALID-04 | Phase 6 - AI Validation | Pending |
+| VALID-05 | Phase 6 - AI Validation | Pending |
+| VALID-06 | Phase 6 - AI Validation | Pending |
+| VALID-07 | Phase 6 - AI Validation | Pending |
+| VALID-08 | Phase 6 - AI Validation | Pending |
+| BILL-01 | Phase 7 - Billing & Polish | Pending |
+| BILL-02 | Phase 7 - Billing & Polish | Pending |
+| BILL-03 | Phase 7 - Billing & Polish | Pending |
+| BILL-04 | Phase 7 - Billing & Polish | Pending |
+| BILL-05 | Phase 7 - Billing & Polish | Pending |
+| BILL-06 | Phase 7 - Billing & Polish | Pending |
+| BILL-07 | Phase 7 - Billing & Polish | Pending |
+| BILL-08 | Phase 7 - Billing & Polish | Pending |
+| BILL-09 | Phase 7 - Billing & Polish | Pending |
 
 **Coverage:**
-- v1 requirements: 32 total
-- Mapped to phases: 32
+- v1 requirements: 40 total
+- Mapped to phases: 40
 - Unmapped: 0
 
 ---

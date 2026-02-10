@@ -2,11 +2,11 @@
 
 **Created:** 2026-01-23
 **Depth:** Standard (5-8 phases)
-**Coverage:** 32/32 v1 requirements mapped
+**Coverage:** 40/40 v1 requirements mapped
 
 ## Overview
 
-LeadQual transforms sales qualification through ICP-personalized scoring. This roadmap delivers six phases: Foundation establishes auth and database; ICP & Onboarding enables personalized profiles; Data Extraction handles reliable company data retrieval; AI Analysis produces scores and recommendations; Dashboard provides lead management; Billing & Polish adds monetization and production readiness. Each phase builds on previous dependencies to deliver a complete product.
+LeadQual transforms sales qualification through ICP-personalized scoring. This roadmap delivers seven phases: Foundation establishes auth and database; ICP & Onboarding enables personalized profiles; Data Extraction handles reliable company data retrieval; AI Analysis produces scores and recommendations; Dashboard provides lead management; AI Validation adds scientific validation of AI-generated scores against expert human judgment; Billing & Polish adds monetization and production readiness. Each phase builds on previous dependencies to deliver a complete product.
 
 ---
 
@@ -170,7 +170,39 @@ Plans:
 
 ---
 
-## Phase 6: Billing & Polish
+## Phase 6: AI Validation
+
+**Goal:** Scientific validation of AI-generated scores against expert human judgment, with automatic statistical metric calculation.
+
+**Dependencies:** Phase 4 (AI Analysis must produce scores for validation)
+
+**Requirements:**
+- VALID-01: Expert can rate lead scores on same dimensions as AI (leadScore, icpMatch, 6 components)
+- VALID-02: Expert can validate data extraction accuracy per field (correct/incorrect/partial)
+- VALID-03: System supports blind rating mode (AI scores hidden during expert evaluation)
+- VALID-04: System auto-calculates Cohen's Kappa for categorical agreement (Hot/Warm/Cold)
+- VALID-05: System auto-calculates Pearson correlation for numeric score agreement
+- VALID-06: System displays confusion matrix, precision/recall/F1, MAE/RMSE
+- VALID-07: System shows validation report with interpretation guidelines (Landis & Koch 1977)
+- VALID-08: Multiple experts can rate the same analysis independently
+
+**Success Criteria:**
+1. Expert can submit blind ratings for any analysis on all scoring dimensions
+2. Expert can validate data extraction accuracy per field with correct/incorrect/partial status
+3. System calculates Cohen's Kappa, Pearson r, confusion matrix, precision/recall/F1, MAE/RMSE automatically
+4. Validation report displays interpretation guidelines based on Landis & Koch (1977)
+5. Multiple experts can independently rate the same analysis
+
+**Plans:** 3 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Database schema + statistical engine (Wave 1-2)
+- [ ] 06-02-PLAN.md — Server actions (Wave 3)
+- [ ] 06-03-PLAN.md — UI: Rating interface + validation report (Wave 4-5)
+
+---
+
+## Phase 7: Billing & Polish
 
 **Goal:** Users can subscribe, usage is tracked, and the application is production-ready with demo mode.
 
@@ -205,9 +237,10 @@ Plans:
 | 3. Data Extraction | Complete | DATA-01 through DATA-05 | 100% |
 | 4. AI Analysis | Complete | ANLZ-01 through ANLZ-07 | 100% |
 | 5. Dashboard | In Progress | DASH-01 through DASH-10 | 0% |
-| 6. Billing & Polish | Pending | BILL-01 through BILL-09 | 0% |
+| 6. AI Validation | In Progress | VALID-01 through VALID-08 | 0% |
+| 7. Billing & Polish | Pending | BILL-01 through BILL-09 | 0% |
 
-**Overall:** 23/32 requirements complete (72%)
+**Overall:** 23/40 requirements complete (58%)
 
 ---
 
@@ -248,17 +281,25 @@ Plans:
 | DASH-08 | Phase 5 | Pending |
 | DASH-09 | Phase 5 | Pending |
 | DASH-10 | Phase 5 | Pending |
-| BILL-01 | Phase 6 | Pending |
-| BILL-02 | Phase 6 | Pending |
-| BILL-03 | Phase 6 | Pending |
-| BILL-04 | Phase 6 | Pending |
-| BILL-05 | Phase 6 | Pending |
-| BILL-06 | Phase 6 | Pending |
-| BILL-07 | Phase 6 | Pending |
-| BILL-08 | Phase 6 | Pending |
-| BILL-09 | Phase 6 | Pending |
+| VALID-01 | Phase 6 | Pending |
+| VALID-02 | Phase 6 | Pending |
+| VALID-03 | Phase 6 | Pending |
+| VALID-04 | Phase 6 | Pending |
+| VALID-05 | Phase 6 | Pending |
+| VALID-06 | Phase 6 | Pending |
+| VALID-07 | Phase 6 | Pending |
+| VALID-08 | Phase 6 | Pending |
+| BILL-01 | Phase 7 | Pending |
+| BILL-02 | Phase 7 | Pending |
+| BILL-03 | Phase 7 | Pending |
+| BILL-04 | Phase 7 | Pending |
+| BILL-05 | Phase 7 | Pending |
+| BILL-06 | Phase 7 | Pending |
+| BILL-07 | Phase 7 | Pending |
+| BILL-08 | Phase 7 | Pending |
+| BILL-09 | Phase 7 | Pending |
 
-**Coverage:** 32/32 requirements mapped (100%)
+**Coverage:** 40/40 requirements mapped (100%)
 
 ---
 

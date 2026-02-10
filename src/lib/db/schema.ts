@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, timestamp, boolean, jsonb, integer } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, text, timestamp, boolean, jsonb, integer, unique } from 'drizzle-orm/pg-core'
 import type {
   ComponentScore,
   PitchAngle,
@@ -141,3 +141,84 @@ export const analyses = pgTable('analyses', {
 // Type exports for analyses
 export type Analysis = typeof analyses.$inferSelect
 export type NewAnalysis = typeof analyses.$inferInsert
+
+// Expert component score type for validation ratings
+export interface ExpertComponentScore {
+  name: string
+  score: number
+  reasoning: string
+}
+
+// Expert ratings table - stores expert evaluations of AI analyses
+export const expertRatings = pgTable('expert_ratings', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  analysisId: uuid('analysis_id')
+    .notNull()
+    .references(() => analyses.id, { onDelete: 'cascade' }),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => profiles.id, { onDelete: 'cascade' }),
+
+  // Expert info
+  expertName: text('expert_name').notNull(),
+  expertRole: text('expert_role'),
+
+  // Scores (same dimensions as AI)
+  leadScore: integer('lead_score').notNull(),
+  icpMatchPercentage: integer('icp_match_percentage').notNull(),
+  category: text('category').notNull(), // hot/warm/cold
+
+  // Component scores as JSONB
+  componentScores: jsonb('component_scores').$type<ExpertComponentScore[]>().notNull(),
+
+  // Rating metadata
+  blindRating: boolean('blind_rating').default(false).notNull(),
+  notes: text('notes'),
+  ratingDurationSeconds: integer('rating_duration_seconds'),
+
+  // Timestamps
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  unique().on(table.analysisId, table.expertName),
+])
+
+export type ExpertRating = typeof expertRatings.$inferSelect
+export type NewExpertRating = typeof expertRatings.$inferInsert
+
+// Field validation status
+export interface FieldValidation {
+  status: 'correct' | 'incorrect' | 'partial'
+  correctedValue?: string
+  notes?: string
+}
+
+// Data extraction validations table
+export const dataExtractionValidations = pgTable('data_extraction_validations', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  companyId: uuid('company_id')
+    .notNull()
+    .references(() => companies.id, { onDelete: 'cascade' }),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => profiles.id, { onDelete: 'cascade' }),
+
+  // Expert info
+  expertName: text('expert_name').notNull(),
+
+  // Per-field validations as JSONB
+  fieldValidations: jsonb('field_validations').$type<Record<string, FieldValidation>>().notNull(),
+
+  // Overall assessment
+  overallAccuracy: text('overall_accuracy'), // high/medium/low
+  notes: text('notes'),
+
+  // Timestamps
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  unique().on(table.companyId, table.expertName),
+])
+
+export type DataExtractionValidation = typeof dataExtractionValidations.$inferSelect
+export type NewDataExtractionValidation = typeof dataExtractionValidations.$inferInsert
