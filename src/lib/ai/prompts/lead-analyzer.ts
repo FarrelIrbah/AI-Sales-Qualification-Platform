@@ -1,4 +1,4 @@
-import { geminiFlash } from '@/lib/ai'
+import { groq, AI_MODEL } from '@/lib/ai'
 import { analysisResultSchema, type AnalysisResult } from '@/lib/analysis/schemas'
 import type { PartialCompanyData } from '@/lib/validations/company'
 import type { IcpProfile } from '@/lib/db/schema'
@@ -81,7 +81,7 @@ Respond ONLY with valid JSON matching this exact structure:
 }`
 
 /**
- * Helper to extract JSON from Gemini response
+ * Helper to extract JSON from AI response
  * Handles markdown code blocks and plain JSON
  */
 function extractJson(text: string): unknown {
@@ -180,7 +180,7 @@ function formatIcpProfile(icp: IcpProfile): string {
 }
 
 /**
- * Analyze a lead against user's ICP using Gemini AI
+ * Analyze a lead against user's ICP using Groq AI (Llama 3.3 70B)
  *
  * @param companyData - Extracted company data (partial is ok)
  * @param icpProfile - User's ICP profile from database
@@ -204,16 +204,23 @@ ${icpContext}
 
 Generate a comprehensive lead analysis with scores, insights, pitch angles, and predicted objections.`
 
-    const result = await geminiFlash.generateContent({
-      contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-      systemInstruction: ANALYSIS_SYSTEM_PROMPT,
-      generationConfig: {
-        maxOutputTokens: 2048, // Prevent cost explosion
-        temperature: 0.7, // Balance creativity and consistency
-      },
+    const result = await groq.chat.completions.create({
+      model: AI_MODEL,
+      messages: [
+        { role: 'system', content: ANALYSIS_SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt },
+      ],
+      max_tokens: 2048,
+      temperature: 0.7,
+      response_format: { type: 'json_object' },
     })
 
-    const response = result.response.text()
+    const response = result.choices[0]?.message?.content
+    if (!response) {
+      console.error('Empty response from Groq')
+      return null
+    }
+
     const parsed = extractJson(response)
 
     // Validate with Zod schema

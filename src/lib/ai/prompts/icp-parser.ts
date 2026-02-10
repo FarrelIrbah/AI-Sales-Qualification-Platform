@@ -1,4 +1,4 @@
-import { geminiFlash } from '@/lib/ai'
+import { groq, AI_MODEL } from '@/lib/ai'
 import {
   companyInfoSchema,
   targetCriteriaSchema,
@@ -88,7 +88,7 @@ IMPORTANT: Respond ONLY with valid JSON matching this exact structure:
 }`
 
 /**
- * Helper to extract JSON from Gemini response
+ * Helper to extract JSON from AI response
  */
 function extractJson(text: string): unknown {
   // Try to find JSON in the response (handle markdown code blocks)
@@ -105,18 +105,36 @@ function extractJson(text: string): unknown {
 }
 
 /**
+ * Helper to call Groq chat completions with system + user messages
+ */
+async function callGroq(systemPrompt: string, userMessage: string): Promise<string | null> {
+  const result = await groq.chat.completions.create({
+    model: AI_MODEL,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userMessage },
+    ],
+    max_tokens: 1024,
+    temperature: 0.7,
+    response_format: { type: 'json_object' },
+  })
+
+  return result.choices[0]?.message?.content || null
+}
+
+/**
  * Parse company info from natural language input
  */
 export async function parseCompanyInfo(
   input: string
 ): Promise<CompanyInfoInput | null> {
   try {
-    const result = await geminiFlash.generateContent([
-      { text: COMPANY_INFO_SYSTEM },
-      { text: `Extract company information from this description:\n\n"${input}"` }
-    ])
+    const response = await callGroq(
+      COMPANY_INFO_SYSTEM,
+      `Extract company information from this description:\n\n"${input}"`
+    )
 
-    const response = result.response.text()
+    if (!response) return null
     const parsed = extractJson(response)
 
     // Validate with zod schema
@@ -140,12 +158,12 @@ export async function parseTargetCriteria(
   input: string
 ): Promise<TargetCriteriaInput | null> {
   try {
-    const result = await geminiFlash.generateContent([
-      { text: TARGET_CRITERIA_SYSTEM },
-      { text: `Extract ideal customer criteria from this description:\n\n"${input}"` }
-    ])
+    const response = await callGroq(
+      TARGET_CRITERIA_SYSTEM,
+      `Extract ideal customer criteria from this description:\n\n"${input}"`
+    )
 
-    const response = result.response.text()
+    if (!response) return null
     const parsed = extractJson(response)
 
     // Validate with zod schema
@@ -169,12 +187,12 @@ export async function parseValueProps(
   input: string
 ): Promise<ValuePropsInput | null> {
   try {
-    const result = await geminiFlash.generateContent([
-      { text: VALUE_PROPS_SYSTEM },
-      { text: `Extract value propositions from this description:\n\n"${input}"` }
-    ])
+    const response = await callGroq(
+      VALUE_PROPS_SYSTEM,
+      `Extract value propositions from this description:\n\n"${input}"`
+    )
 
-    const response = result.response.text()
+    if (!response) return null
     const parsed = extractJson(response)
 
     // Validate with zod schema
@@ -198,12 +216,12 @@ export async function parseObjections(
   input: string
 ): Promise<ObjectionsInput | null> {
   try {
-    const result = await geminiFlash.generateContent([
-      { text: OBJECTIONS_SYSTEM },
-      { text: `Extract common objections from this description:\n\n"${input}"` }
-    ])
+    const response = await callGroq(
+      OBJECTIONS_SYSTEM,
+      `Extract common objections from this description:\n\n"${input}"`
+    )
 
-    const response = result.response.text()
+    if (!response) return null
     const parsed = extractJson(response)
 
     // Validate with zod schema
