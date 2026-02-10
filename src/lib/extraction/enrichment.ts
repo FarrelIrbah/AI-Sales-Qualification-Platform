@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import https from 'https'
 
 /**
  * Hunter.io Enrichment Client
@@ -7,22 +7,20 @@ import { z } from 'zod'
  * Gracefully degrades when API key is not configured or credits exhausted.
  */
 
-// Hunter.io API response schema
-const hunterResponseSchema = z.object({
-  data: z
-    .object({
-      name: z.string().nullish(),
-      description: z.string().nullish(),
-      industry: z.string().nullish(),
-      employees_count: z.number().nullish(),
-      country: z.string().nullish(),
-      city: z.string().nullish(),
-      technologies: z.array(z.string()).nullish(),
-      linkedin: z.string().nullish(),
-      twitter: z.string().nullish(),
-    })
-    .nullable(),
-})
+// Hunter.io response data shape (loosely typed — API fields vary)
+interface HunterCompanyData {
+  name?: string | null
+  description?: string | null
+  industry?: string | null
+  category?: string | null
+  employees_count?: number | null
+  size?: string | null
+  country?: string | null
+  city?: string | null
+  technologies?: string[] | null
+  linkedin?: string | null
+  twitter?: string | null
+}
 
 /**
  * Enriched company data from Hunter.io API
@@ -36,6 +34,25 @@ export interface EnrichedCompanyData {
   techStack?: string[]
   linkedIn?: string
   twitter?: string
+}
+
+/**
+ * Make HTTPS request using native Node.js module (more reliable on Windows)
+ */
+function httpsGet(url: string): Promise<{ status: number; body: string }> {
+  return new Promise((resolve, reject) => {
+    const req = https.get(url, { timeout: 10000 }, (res) => {
+      let body = ''
+      res.on('data', (chunk) => (body += chunk))
+      res.on('end', () => resolve({ status: res.statusCode || 0, body }))
+    })
+
+    req.on('error', reject)
+    req.on('timeout', () => {
+      req.destroy()
+      reject(new Error('Request timed out'))
+    })
+  })
 }
 
 /**
@@ -66,51 +83,47 @@ export async function enrichCompany(
   const url = `https://api.hunter.io/v2/companies/find?domain=${encodeURIComponent(domain)}&api_key=${apiKey}`
 
   try {
-    const response = await fetch(url, {
-      signal: AbortSignal.timeout(10000), // 10 second timeout
-    })
+    const { status, body } = await httpsGet(url)
 
     // Handle specific error codes
-    if (!response.ok) {
-      if (response.status === 402) {
+    if (status !== 200) {
+      if (status === 402) {
         console.warn('Hunter.io API: credits exhausted')
-      } else if (response.status === 401) {
+      } else if (status === 401) {
         console.warn('Hunter.io API: invalid API key')
-      } else if (response.status === 404) {
+      } else if (status === 404) {
         // No data found for domain - not an error
         return null
       } else {
-        console.warn(`Hunter.io API error: ${response.status}`)
+        console.warn(`Hunter.io API error: ${status}`)
       }
       return null
     }
 
-    const json = await response.json()
+    const json = JSON.parse(body)
 
-    // Validate response with Zod
-    const parsed = hunterResponseSchema.safeParse(json)
-    if (!parsed.success) {
-      console.warn('Hunter.io API: unexpected response format')
+    // Extract data field — Hunter.io wraps response in { data: {...} }
+    const data: HunterCompanyData | null | undefined =
+      json && typeof json === 'object' ? json.data : null
+
+    if (!data || typeof data !== 'object') {
       return null
     }
-
-    // No data in response
-    if (!parsed.data.data) {
-      return null
-    }
-
-    const { data } = parsed.data
 
     // Transform Hunter.io response to our format
     const enriched: EnrichedCompanyData = {}
 
     if (data.name) enriched.name = data.name
     if (data.description) enriched.description = data.description
+    // Hunter.io uses both "industry" and "category" depending on endpoint
     if (data.industry) enriched.industry = data.industry
+    else if (data.category) enriched.industry = data.category
 
-    // Convert employee count to range string
-    if (data.employees_count) {
+    // Convert employee count to range string (handle both number and string)
+    if (data.employees_count && typeof data.employees_count === 'number') {
       enriched.employeeCount = formatEmployeeCount(data.employees_count)
+    } else if (data.size && typeof data.size === 'string') {
+      enriched.employeeCount = data.size
     }
 
     // Format location from city + country
@@ -122,7 +135,7 @@ export async function enrichCompany(
     }
 
     // Tech stack
-    if (data.technologies && data.technologies.length > 0) {
+    if (data.technologies && Array.isArray(data.technologies) && data.technologies.length > 0) {
       enriched.techStack = data.technologies
     }
 
@@ -134,11 +147,9 @@ export async function enrichCompany(
   } catch (error) {
     // Handle network errors, timeouts, etc.
     if (error instanceof Error) {
-      if (error.name === 'TimeoutError' || error.name === 'AbortError') {
-        console.warn('Hunter.io API: request timed out')
-      } else {
-        console.warn(`Hunter.io API error: ${error.message}`)
-      }
+      console.warn(`Hunter.io API error: ${error.message}`)
+    } else {
+      console.warn('Hunter.io API: unknown error', error)
     }
     return null
   }
