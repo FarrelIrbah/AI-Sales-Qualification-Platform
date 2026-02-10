@@ -160,6 +160,14 @@ Plans:
 4. User can export filtered leads as CSV and copy individual lead analysis to clipboard
 5. User can archive leads (removing from active view) and re-analyze stale leads
 
+**Plans:** 4 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Schema migration + dashboard queries + CSV/clipboard utilities
+- [ ] 05-02-PLAN.md — Dashboard page + filter bar + lead card grid (DASH-01, DASH-03/04/05/06)
+- [ ] 05-03-PLAN.md — Expanding detail view + action menus (DASH-02, DASH-07/08/09/10)
+- [ ] 05-04-PLAN.md — End-to-end verification checkpoint
+
 ---
 
 ## Phase 6: Billing & Polish
@@ -196,7 +204,7 @@ Plans:
 | 2. ICP & Onboarding | Complete | ICP-01 through ICP-07 | 100% |
 | 3. Data Extraction | Complete | DATA-01 through DATA-05 | 100% |
 | 4. AI Analysis | Complete | ANLZ-01 through ANLZ-07 | 100% |
-| 5. Dashboard | Pending | DASH-01 through DASH-10 | 0% |
+| 5. Dashboard | In Progress | DASH-01 through DASH-10 | 0% |
 | 6. Billing & Polish | Pending | BILL-01 through BILL-09 | 0% |
 
 **Overall:** 23/32 requirements complete (72%)
