@@ -16,17 +16,17 @@
 ## Current Position
 
 **Phase:** 5 of 6 (Dashboard) — IN PROGRESS
-**Plan:** 1 of 5 complete
+**Plan:** 2 of 5 complete
 **Status:** In progress
-**Last activity:** 2026-02-10 - Completed 05-01-PLAN.md (Dashboard Data Foundation)
+**Last activity:** 2026-02-10 - Completed 05-02-PLAN.md (Dashboard UI Core)
 
 ```
-Progress: [█████████░] 92% (24/32 requirements mapped)
+Progress: [█████████░] 95% (30/32 requirements mapped)
 Phase 1:  [##########] 100% COMPLETE
 Phase 2:  [##########] 100% COMPLETE
 Phase 3:  [##########] 100% COMPLETE
 Phase 4:  [##########] 100% COMPLETE
-Phase 5:  [##--------]  20% (plan 1/5 complete)
+Phase 5:  [####------]  40% (plan 2/5 complete)
 Phase 6:  [----------]   0%
 ```
 
@@ -40,7 +40,7 @@ Phase 6:  [----------]   0%
 | 2 | ICP & Onboarding | COMPLETE | ICP-01 to ICP-07 |
 | 3 | Data Extraction | COMPLETE | DATA-01 to DATA-05 |
 | 4 | AI Analysis | COMPLETE | ANLZ-01 to ANLZ-07 |
-| 5 | Dashboard | IN PROGRESS | DASH-01 to DASH-10 (1/5 plans complete) |
+| 5 | Dashboard | IN PROGRESS | DASH-01 to DASH-10 (2/5 plans complete) |
 | 6 | Billing & Polish | Pending | BILL-01 to BILL-09 |
 
 ---
@@ -49,10 +49,10 @@ Phase 6:  [----------]   0%
 
 | Metric | Value |
 |--------|-------|
-| Plans Completed | 23 |
-| Requirements Completed | 24/32 |
+| Plans Completed | 24 |
+| Requirements Completed | 30/32 |
 | Phases Completed | 4/6 |
-| Current Streak | 23 |
+| Current Streak | 24 |
 
 ---
 
@@ -88,6 +88,9 @@ Phase 6:  [----------]   0%
 | Plain text clipboard format | Not markdown - universal CRM compatibility | 2026-02-10 |
 | Default sort: leadScore desc | With createdAt desc as tiebreaker for consistency | 2026-02-10 |
 | CSV escaping strategy | Wrap in quotes if contains comma/quote/newline, double-escape internal quotes | 2026-02-10 |
+| Score range URL toggles | Hot (70-100), Warm (40-69), Cold (0-39) map to scoreMin/Max params | 2026-02-10 |
+| Single expanded card state | Only one card expanded at a time for cleaner UX | 2026-02-10 |
+| Radix Collapsible for expand | Accessible, animated expand/collapse pattern | 2026-02-10 |
 
 ### Tech Stack
 
@@ -99,7 +102,7 @@ Phase 6:  [----------]   0%
 | AI | Google Gemini 2.0 Flash |
 | AI SDK | Vercel AI SDK 6.x |
 | Scraping | Cheerio (+ Playwright fallback) |
-| UI | Tailwind CSS 4.x + shadcn/ui |
+| UI | Tailwind CSS 4.x + shadcn/ui + nuqs |
 | Payments | Stripe |
 
 ### Critical Pitfalls (from Research)
