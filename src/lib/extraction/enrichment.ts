@@ -115,9 +115,19 @@ export async function enrichCompany(
 
     if (data.name) enriched.name = data.name
     if (data.description) enriched.description = data.description
-    // Hunter.io uses both "industry" and "category" depending on endpoint
-    if (data.industry) enriched.industry = data.industry
-    else if (data.category) enriched.industry = data.category
+    // Hunter.io returns industry as either a string or a nested object
+    // with keys like { sector, industryGroup, industry, subIndustry, ... }
+    if (data.industry) {
+      if (typeof data.industry === 'string') {
+        enriched.industry = data.industry
+      } else if (typeof data.industry === 'object' && data.industry !== null) {
+        // Extract the most specific industry name available
+        const ind = data.industry as Record<string, unknown>
+        enriched.industry = (ind.subIndustry || ind.industry || ind.industryGroup || ind.sector) as string
+      }
+    } else if (data.category) {
+      enriched.industry = typeof data.category === 'string' ? data.category : undefined
+    }
 
     // Convert employee count to range string (handle both number and string)
     if (data.employees_count && typeof data.employees_count === 'number') {
