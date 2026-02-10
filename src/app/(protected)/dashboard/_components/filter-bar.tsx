@@ -132,12 +132,15 @@ export function FilterBar({ industries, totalCount, leads }: FilterBarProps) {
           <label htmlFor="industry-filter" className="text-sm font-medium text-muted-foreground whitespace-nowrap">
             Industry:
           </label>
-          <Select value={industry} onValueChange={setIndustry}>
+          <Select
+            value={industry || '__all__'}
+            onValueChange={(v) => setIndustry(v === '__all__' ? '' : v)}
+          >
             <SelectTrigger id="industry-filter" className="w-[200px]">
               <SelectValue placeholder="All industries" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All industries</SelectItem>
+              <SelectItem value="__all__">All industries</SelectItem>
               {industries.map((ind) => (
                 <SelectItem key={ind} value={ind}>
                   {ind}
