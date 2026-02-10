@@ -130,6 +130,9 @@ export const analyses = pgTable('analyses', {
   pitchAngles: jsonb('pitch_angles').$type<PitchAngle[]>().notNull(),
   objections: jsonb('objections').$type<PredictedObjection[]>().notNull(),
 
+  // Dashboard management
+  isArchived: boolean('is_archived').default(false).notNull(),
+
   // Timestamps
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
