@@ -1,13 +1,17 @@
--- Create ICP profiles table
+-- ============================================
+-- Migration 2: ICP Profiles table
+-- ============================================
+-- Requires: 0001 (profiles)
+
 CREATE TABLE IF NOT EXISTS public.icp_profiles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
 
-  -- Company info (flat fields for common queries)
+  -- Company info
   product_description TEXT NOT NULL,
   industry TEXT NOT NULL,
-  company_size TEXT NOT NULL, -- solo/small/medium/large/enterprise
-  target_market TEXT NOT NULL, -- b2b/b2c/both
+  company_size TEXT NOT NULL,
+  target_market TEXT NOT NULL,
 
   -- Complex nested data as JSONB
   target_criteria JSONB NOT NULL,
@@ -18,39 +22,34 @@ CREATE TABLE IF NOT EXISTS public.icp_profiles (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Create index for user lookups (each user has one ICP)
+-- One ICP per user (unique constraint)
 CREATE UNIQUE INDEX IF NOT EXISTS icp_profiles_user_id_idx ON public.icp_profiles(user_id);
 
--- Enable RLS
+-- RLS
 ALTER TABLE public.icp_profiles ENABLE ROW LEVEL SECURITY;
 
--- RLS Policies: Users can only access their own ICP profile
 CREATE POLICY "Users can view own ICP profile"
-  ON public.icp_profiles
-  FOR SELECT
+  ON public.icp_profiles FOR SELECT
   TO authenticated
   USING (user_id = auth.uid());
 
 CREATE POLICY "Users can insert own ICP profile"
-  ON public.icp_profiles
-  FOR INSERT
+  ON public.icp_profiles FOR INSERT
   TO authenticated
   WITH CHECK (user_id = auth.uid());
 
 CREATE POLICY "Users can update own ICP profile"
-  ON public.icp_profiles
-  FOR UPDATE
+  ON public.icp_profiles FOR UPDATE
   TO authenticated
   USING (user_id = auth.uid())
   WITH CHECK (user_id = auth.uid());
 
 CREATE POLICY "Users can delete own ICP profile"
-  ON public.icp_profiles
-  FOR DELETE
+  ON public.icp_profiles FOR DELETE
   TO authenticated
   USING (user_id = auth.uid());
 
--- Trigger to auto-update updated_at
+-- Updated_at trigger (reuses function from migration 0001)
 DROP TRIGGER IF EXISTS update_icp_profiles_updated_at ON public.icp_profiles;
 CREATE TRIGGER update_icp_profiles_updated_at
   BEFORE UPDATE ON public.icp_profiles

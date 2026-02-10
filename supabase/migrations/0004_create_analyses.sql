@@ -1,70 +1,60 @@
--- Migration: Create analyses table
--- Phase: 04-ai-analysis
--- Stores AI-generated lead analysis results
+-- ============================================
+-- Migration 4: Analyses table
+-- ============================================
+-- Requires: 0001 (profiles), 0002 (icp_profiles), 0003 (companies)
 
-CREATE TABLE IF NOT EXISTS "analyses" (
-  "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-  "user_id" uuid NOT NULL,
-  "company_id" uuid NOT NULL,
-  "icp_profile_id" uuid NOT NULL,
-  "lead_score" integer NOT NULL,
-  "icp_match_percentage" integer NOT NULL,
-  "component_scores" jsonb NOT NULL,
-  "insights" jsonb NOT NULL,
-  "pitch_angles" jsonb NOT NULL,
-  "objections" jsonb NOT NULL,
-  "created_at" timestamp with time zone DEFAULT now() NOT NULL,
-  "updated_at" timestamp with time zone DEFAULT now() NOT NULL
+CREATE TABLE IF NOT EXISTS public.analyses (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
+  icp_profile_id UUID NOT NULL REFERENCES public.icp_profiles(id) ON DELETE CASCADE,
+
+  -- Core scores (flat integers for querying/filtering)
+  lead_score INTEGER NOT NULL,
+  icp_match_percentage INTEGER NOT NULL,
+
+  -- Complex nested data as JSONB
+  component_scores JSONB NOT NULL,
+  insights JSONB NOT NULL,
+  pitch_angles JSONB NOT NULL,
+  objections JSONB NOT NULL,
+
+  -- Timestamps
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Foreign key constraints with cascade delete
-ALTER TABLE "analyses" ADD CONSTRAINT "analyses_user_id_profiles_id_fk"
-  FOREIGN KEY ("user_id") REFERENCES "public"."profiles"("id") ON DELETE cascade ON UPDATE no action;
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_analyses_user_id ON public.analyses(user_id);
+CREATE INDEX IF NOT EXISTS idx_analyses_company_id ON public.analyses(company_id);
+CREATE INDEX IF NOT EXISTS idx_analyses_lead_score ON public.analyses(lead_score);
 
-ALTER TABLE "analyses" ADD CONSTRAINT "analyses_company_id_companies_id_fk"
-  FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE cascade ON UPDATE no action;
+-- RLS
+ALTER TABLE public.analyses ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "analyses" ADD CONSTRAINT "analyses_icp_profile_id_icp_profiles_id_fk"
-  FOREIGN KEY ("icp_profile_id") REFERENCES "public"."icp_profiles"("id") ON DELETE cascade ON UPDATE no action;
-
--- Indexes for common queries
-CREATE INDEX IF NOT EXISTS idx_analyses_user_id ON analyses(user_id);
-CREATE INDEX IF NOT EXISTS idx_analyses_company_id ON analyses(company_id);
-CREATE INDEX IF NOT EXISTS idx_analyses_lead_score ON analyses(lead_score);
-
--- Row Level Security
-ALTER TABLE analyses ENABLE ROW LEVEL SECURITY;
-
--- Users can only see their own analyses
 CREATE POLICY "Users can view own analyses"
-  ON analyses FOR SELECT
+  ON public.analyses FOR SELECT
+  TO authenticated
   USING (auth.uid() = user_id);
 
--- Users can insert their own analyses
 CREATE POLICY "Users can insert own analyses"
-  ON analyses FOR INSERT
+  ON public.analyses FOR INSERT
+  TO authenticated
   WITH CHECK (auth.uid() = user_id);
 
--- Users can update their own analyses
 CREATE POLICY "Users can update own analyses"
-  ON analyses FOR UPDATE
+  ON public.analyses FOR UPDATE
+  TO authenticated
   USING (auth.uid() = user_id);
 
--- Users can delete their own analyses
 CREATE POLICY "Users can delete own analyses"
-  ON analyses FOR DELETE
+  ON public.analyses FOR DELETE
+  TO authenticated
   USING (auth.uid() = user_id);
 
--- Update timestamp trigger
-CREATE OR REPLACE FUNCTION update_analyses_updated_at()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER analyses_updated_at
-  BEFORE UPDATE ON analyses
+-- Updated_at trigger (reuses function from migration 0001)
+DROP TRIGGER IF EXISTS update_analyses_updated_at ON public.analyses;
+CREATE TRIGGER update_analyses_updated_at
+  BEFORE UPDATE ON public.analyses
   FOR EACH ROW
-  EXECUTE FUNCTION update_analyses_updated_at();
+  EXECUTE FUNCTION public.update_updated_at();
