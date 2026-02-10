@@ -1,6 +1,6 @@
 'use client'
 
-import { useQueryState, parseAsString, parseAsInteger } from 'nuqs'
+import { useQueryState, parseAsString, parseAsInteger, parseAsBoolean } from 'nuqs'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -11,13 +11,16 @@ import {
 } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { X, ArrowUpDown } from 'lucide-react'
+import type { DashboardLead } from '@/lib/dashboard/queries'
+import { ExportAllButton } from './export-all-button'
 
 interface FilterBarProps {
   industries: string[]
   totalCount: number
+  leads: DashboardLead[]
 }
 
-export function FilterBar({ industries, totalCount }: FilterBarProps) {
+export function FilterBar({ industries, totalCount, leads }: FilterBarProps) {
   // Score range filter
   const [scoreRange, setScoreRange] = useQueryState('scoreRange', parseAsString.withDefault(''))
 
@@ -32,6 +35,9 @@ export function FilterBar({ industries, totalCount }: FilterBarProps) {
   const [dateFrom, setDateFrom] = useQueryState('dateFrom', parseAsString.withDefault(''))
   const [dateTo, setDateTo] = useQueryState('dateTo', parseAsString.withDefault(''))
 
+  // Show archived toggle
+  const [showArchived, setShowArchived] = useQueryState('showArchived', parseAsBoolean.withDefault(false))
+
   // Sort controls
   const [sortBy, setSortBy] = useQueryState('sortBy', parseAsString.withDefault('score'))
   const [sortDir, setSortDir] = useQueryState('sortDir', parseAsString.withDefault('desc'))
@@ -44,6 +50,7 @@ export function FilterBar({ industries, totalCount }: FilterBarProps) {
     industry !== '',
     dateFrom !== '',
     dateTo !== '',
+    showArchived === true,
   ].filter(Boolean).length
 
   // Clear all filters
@@ -54,6 +61,7 @@ export function FilterBar({ industries, totalCount }: FilterBarProps) {
     setIndustry('')
     setDateFrom('')
     setDateTo('')
+    setShowArchived(false)
   }
 
   // Toggle sort direction
@@ -99,6 +107,9 @@ export function FilterBar({ industries, totalCount }: FilterBarProps) {
         </Button>
 
         <div className="ml-auto flex items-center gap-2">
+          {/* Export All button */}
+          <ExportAllButton leads={leads} />
+
           {activeFilterCount > 0 && (
             <>
               <Badge variant="secondary">{activeFilterCount} active</Badge>
@@ -180,6 +191,20 @@ export function FilterBar({ industries, totalCount }: FilterBarProps) {
             onChange={(e) => setDateTo(e.target.value)}
             className="h-9 px-3 py-2 border border-input rounded-md text-sm"
           />
+        </div>
+
+        {/* Show archived toggle */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="show-archived" className="text-sm font-medium text-muted-foreground whitespace-nowrap cursor-pointer">
+            <input
+              id="show-archived"
+              type="checkbox"
+              checked={showArchived}
+              onChange={(e) => setShowArchived(e.target.checked)}
+              className="mr-2 cursor-pointer"
+            />
+            Show archived
+          </label>
         </div>
 
         {/* Sort controls */}

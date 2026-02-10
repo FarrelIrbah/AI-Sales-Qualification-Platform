@@ -59,6 +59,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     filters.sortDir = params.sortDir as 'asc' | 'desc'
   }
 
+  // Show archived
+  if (params.showArchived === 'true') {
+    filters.showArchived = true
+  }
+
   // Fetch data in parallel
   const [leads, industries] = await Promise.all([
     getDashboardLeads(filters),
@@ -116,7 +121,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       {/* Has leads or filters - show filter bar and grid */}
       {(hasLeads || hasFilters) && (
         <>
-          <FilterBar industries={industries} totalCount={leads.length} />
+          <FilterBar industries={industries} totalCount={leads.length} leads={leads} />
 
           {/* No results after filtering */}
           {!hasLeads && hasFilters && (

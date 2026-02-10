@@ -4,15 +4,18 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { getScoreLabel } from '@/lib/analysis/schemas'
 import type { Analysis, Company } from '@/lib/db/schema'
-import { MoreVertical } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { ActionMenu } from './action-menu'
 
 interface LeadCardProps {
   analysis: Analysis
   company: Company
   isExpanded: boolean
   onToggleExpand: () => void
-  onAction: (action: string, analysisId: string) => void
+  onArchive: (id: string) => void
+  onUnarchive: (id: string) => void
+  onReanalyze: (domain: string) => void
+  onCopyToClipboard: (lead: { analysis: Analysis; company: Company }) => void
+  onExportCSV: (lead: { analysis: Analysis; company: Company }) => void
 }
 
 /**
@@ -53,7 +56,11 @@ export function LeadCard({
   company,
   isExpanded,
   onToggleExpand,
-  onAction,
+  onArchive,
+  onUnarchive,
+  onReanalyze,
+  onCopyToClipboard,
+  onExportCSV,
 }: LeadCardProps) {
   const scoreColor = getScoreColor(analysis.leadScore)
   const icpBadgeColor = getIcpBadgeColor(analysis.icpMatchPercentage)
@@ -71,17 +78,16 @@ export function LeadCard({
       <CardContent className="p-6" onClick={onToggleExpand}>
         {/* Three-dot menu in top-right corner */}
         <div className="flex justify-end mb-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={(e) => {
-              e.stopPropagation()
-              onAction('menu', analysis.id)
-            }}
-            className="h-8 w-8"
-          >
-            <MoreVertical className="h-4 w-4" />
-          </Button>
+          <ActionMenu
+            analysisId={analysis.id}
+            isArchived={analysis.isArchived}
+            lead={{ analysis, company }}
+            onArchive={onArchive}
+            onUnarchive={onUnarchive}
+            onReanalyze={onReanalyze}
+            onCopyToClipboard={onCopyToClipboard}
+            onExportCSV={onExportCSV}
+          />
         </div>
 
         {/* Main card layout - responsive grid */}
