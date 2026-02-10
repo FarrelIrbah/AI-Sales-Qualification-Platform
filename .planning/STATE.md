@@ -9,16 +9,16 @@
 
 **Core Value:** Two different users analyzing the same company get completely different, actionable recommendations based on their unique ICP.
 
-**Current Focus:** Phase 5 (Dashboard) in progress. Plan 01 complete (data foundation). UI plans next.
+**Current Focus:** Phase 5 (Dashboard) in progress. Plans 01-03 complete (all core dashboard features). Refinement plans next.
 
 ---
 
 ## Current Position
 
 **Phase:** 5 of 6 (Dashboard) — IN PROGRESS
-**Plan:** 2 of 5 complete
+**Plan:** 3 of 5 complete
 **Status:** In progress
-**Last activity:** 2026-02-10 - Completed 05-02-PLAN.md (Dashboard UI Core)
+**Last activity:** 2026-02-10 - Completed 05-03-PLAN.md (Detail View & Actions)
 
 ```
 Progress: [█████████░] 95% (30/32 requirements mapped)
@@ -26,7 +26,7 @@ Phase 1:  [##########] 100% COMPLETE
 Phase 2:  [##########] 100% COMPLETE
 Phase 3:  [##########] 100% COMPLETE
 Phase 4:  [##########] 100% COMPLETE
-Phase 5:  [####------]  40% (plan 2/5 complete)
+Phase 5:  [######----]  60% (plan 3/5 complete)
 Phase 6:  [----------]   0%
 ```
 
@@ -40,7 +40,7 @@ Phase 6:  [----------]   0%
 | 2 | ICP & Onboarding | COMPLETE | ICP-01 to ICP-07 |
 | 3 | Data Extraction | COMPLETE | DATA-01 to DATA-05 |
 | 4 | AI Analysis | COMPLETE | ANLZ-01 to ANLZ-07 |
-| 5 | Dashboard | IN PROGRESS | DASH-01 to DASH-10 (2/5 plans complete) |
+| 5 | Dashboard | IN PROGRESS | DASH-01 to DASH-10 (3/5 plans complete) |
 | 6 | Billing & Polish | Pending | BILL-01 to BILL-09 |
 
 ---
@@ -49,10 +49,10 @@ Phase 6:  [----------]   0%
 
 | Metric | Value |
 |--------|-------|
-| Plans Completed | 24 |
+| Plans Completed | 25 |
 | Requirements Completed | 30/32 |
 | Phases Completed | 4/6 |
-| Current Streak | 24 |
+| Current Streak | 25 |
 
 ---
 
@@ -91,6 +91,11 @@ Phase 6:  [----------]   0%
 | Score range URL toggles | Hot (70-100), Warm (40-69), Cold (0-39) map to scoreMin/Max params | 2026-02-10 |
 | Single expanded card state | Only one card expanded at a time for cleaner UX | 2026-02-10 |
 | Radix Collapsible for expand | Accessible, animated expand/collapse pattern | 2026-02-10 |
+| Nested Collapsible pattern | LeadDetail manages independent section state within card-level Collapsible | 2026-02-10 |
+| Custom dropdown menu | Lightweight positioned div with click-outside instead of Radix DropdownMenu | 2026-02-10 |
+| Simple toast pattern | State-based messages with auto-dismiss, no external library | 2026-02-10 |
+| Re-analyze navigation | router.push to /analyze with URL param, allows review before re-run | 2026-02-10 |
+| Export All respects filters | Export button exports only currently displayed/filtered leads | 2026-02-10 |
 
 ### Tech Stack
 
