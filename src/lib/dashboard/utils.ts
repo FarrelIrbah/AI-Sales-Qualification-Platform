@@ -1,0 +1,208 @@
+import type { Analysis, Company } from '@/lib/db/schema'
+import { getScoreLabel } from '@/lib/analysis/schemas'
+
+/**
+ * Dashboard Utility Functions
+ *
+ * Client-side utilities for CSV export and clipboard operations.
+ * These functions run in the browser, not on the server.
+ */
+
+export interface DashboardLead {
+  analysis: Analysis
+  company: Company
+}
+
+/**
+ * Convert leads to CSV format
+ *
+ * @param leads - Array of dashboard leads
+ * @returns CSV string with headers and data rows
+ */
+export function leadsToCSV(leads: DashboardLead[]): string {
+  // CSV header row
+  const headers = [
+    'Company Name',
+    'Domain',
+    'Industry',
+    'Employee Count',
+    'Lead Score',
+    'Score Label',
+    'ICP Match %',
+    'Location',
+    'Analyzed Date',
+  ]
+
+  // Escape function for CSV values
+  const escapeCSV = (value: string | null | undefined): string => {
+    if (value === null || value === undefined) {
+      return ''
+    }
+    const stringValue = String(value)
+    // Wrap in quotes if contains comma, quote, or newline
+    if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+      // Double-escape internal quotes
+      return `"${stringValue.replace(/"/g, '""')}"`
+    }
+    return stringValue
+  }
+
+  // Format date as YYYY-MM-DD
+  const formatDate = (date: Date): string => {
+    return date.toISOString().split('T')[0]
+  }
+
+  // Build CSV rows
+  const rows = leads.map((lead) => {
+    const { analysis, company } = lead
+    return [
+      escapeCSV(company.name),
+      escapeCSV(company.domain),
+      escapeCSV(company.industry),
+      escapeCSV(company.employeeCount),
+      analysis.leadScore.toString(),
+      getScoreLabel(analysis.leadScore),
+      analysis.icpMatchPercentage.toString(),
+      escapeCSV(company.location),
+      formatDate(analysis.createdAt),
+    ].join(',')
+  })
+
+  // Combine headers and rows
+  return [headers.join(','), ...rows].join('\n')
+}
+
+/**
+ * Trigger browser download of CSV content
+ *
+ * @param csvContent - CSV string to download
+ * @param filename - Name for downloaded file (defaults to dated filename)
+ */
+export function downloadCSV(csvContent: string, filename?: string): void {
+  // Default filename with current date
+  const defaultFilename = `leadqual-export-${new Date().toISOString().split('T')[0]}.csv`
+  const finalFilename = filename || defaultFilename
+
+  // Create Blob with CSV content
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+
+  // Create object URL
+  const url = URL.createObjectURL(blob)
+
+  // Create temporary anchor element and trigger download
+  const link = document.createElement('a')
+  link.href = url
+  link.download = finalFilename
+  link.style.display = 'none'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+
+  // Clean up object URL
+  URL.revokeObjectURL(url)
+}
+
+/**
+ * Convert lead to CRM-friendly plain text format
+ *
+ * @param lead - Dashboard lead to format
+ * @returns Plain text string ready for CRM paste
+ */
+export function leadToClipboardText(lead: DashboardLead): string {
+  const { analysis, company } = lead
+
+  // Format date as readable string
+  const formatDate = (date: Date): string => {
+    return date.toISOString().split('T')[0]
+  }
+
+  // Build sections
+  const sections: string[] = []
+
+  // Header
+  sections.push(`=== LEAD ANALYSIS: ${company.name} ===`)
+  sections.push('')
+
+  // Scores
+  sections.push(`LEAD SCORE: ${analysis.leadScore}/100 (${getScoreLabel(analysis.leadScore)})`)
+  sections.push(`ICP MATCH: ${analysis.icpMatchPercentage}%`)
+  sections.push('')
+
+  // Company info
+  sections.push('COMPANY INFO')
+  sections.push(`Domain: ${company.domain}`)
+  if (company.industry) sections.push(`Industry: ${company.industry}`)
+  if (company.employeeCount) sections.push(`Size: ${company.employeeCount}`)
+  if (company.location) sections.push(`Location: ${company.location}`)
+  sections.push('')
+
+  // Insights
+  sections.push('INSIGHTS')
+  sections.push(analysis.insights.summary)
+  if (analysis.insights.strengths.length > 0) {
+    sections.push('Strengths:')
+    analysis.insights.strengths.forEach((strength) => {
+      sections.push(`  - ${strength}`)
+    })
+  }
+  if (analysis.insights.concerns.length > 0) {
+    sections.push('Concerns:')
+    analysis.insights.concerns.forEach((concern) => {
+      sections.push(`  - ${concern}`)
+    })
+  }
+  sections.push('')
+
+  // Pitch angles
+  sections.push('PITCH ANGLES')
+  analysis.pitchAngles.forEach((pitch, index) => {
+    sections.push(`${index + 1}. ${pitch.headline}: ${pitch.explanation}`)
+  })
+  sections.push('')
+
+  // Objections
+  sections.push('OBJECTIONS')
+  analysis.objections.forEach((objection, index) => {
+    sections.push(`${index + 1}. ${objection.objection} (${objection.likelihood})`)
+    sections.push(`   Response: ${objection.recommendedResponse}`)
+  })
+  sections.push('')
+
+  // Footer
+  sections.push(`Analyzed: ${formatDate(analysis.createdAt)}`)
+  sections.push('Generated by LeadQual')
+
+  return sections.join('\n')
+}
+
+/**
+ * Copy text to clipboard with error handling
+ *
+ * @param text - Text to copy
+ * @returns Success status with error message if failed
+ */
+export async function copyToClipboard(
+  text: string
+): Promise<{ success: true } | { success: false; error: string }> {
+  try {
+    // Check if clipboard API is available
+    if (!navigator.clipboard) {
+      return {
+        success: false,
+        error: 'Clipboard API not available in this browser',
+      }
+    }
+
+    // Attempt to write to clipboard
+    await navigator.clipboard.writeText(text)
+
+    return { success: true }
+  } catch (error) {
+    console.error('copyToClipboard error:', error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to copy to clipboard',
+    }
+  }
+}
